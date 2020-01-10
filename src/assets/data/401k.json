@@ -1,0 +1,46 @@
+[
+    {
+      "transactionID (S)": "1254df3e-33c3-11ea-a609-818a89edd336",
+      "customerID (S)": "vinod_s",
+      "accountID (S)": 123456,
+      "accountName (S)": "Vanguard",
+      "investment_type (S)": "401K",
+      "number_of_shares (N)": 10,
+      "purchase_date (S)": "10/10/2019",
+      "purchase_price (N)": 220,
+      "ticker (S)": "VGT"
+    },
+    {
+      "transactionID (S)": "12739a7a-33c3-11ea-baf5-818a89edd336",
+      "customerID (S)": "vinod_s",
+      "accountID (S)": 123456,
+      "accountName (S)": "Vanguard",
+      "investment_type (S)": "401K",
+      "number_of_shares (N)": 10,
+      "purchase_date (S)": "10/10/2019",
+      "purchase_price (N)": 230,
+      "ticker (S)": "AAPL"
+    },
+    {
+      "transactionID (S)": "12798301-33c3-11ea-bc7b-818a89edd336",
+      "customerID (S)": "vinod_s",
+      "accountID (S)": 123456,
+      "accountName (S)": "Vanguard",
+      "investment_type (S)": "401K",
+      "number_of_shares (N)": 10,
+      "purchase_date (S)": "10/10/2019",
+      "purchase_price (N)": 1200,
+      "ticker (S)": "GOOG"
+    },
+    {
+      "transactionID (S)": "127f9d59-33c3-11ea-968a-818a89edd336",
+      "customerID (S)": "vinod_s",
+      "accountID (S)": 123456,
+      "accountName (S)": "Vanguard",
+      "investment_type (S)": "401K",
+      "number_of_shares (N)": 10,
+      "purchase_date (S)": "10/10/2019",
+      "purchase_price (N)": 30,
+      "ticker (S)": "BA"
+    }
+  ]
