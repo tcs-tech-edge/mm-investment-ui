@@ -13,4 +13,8 @@ export class InvestmentServiceService {
 
     return this.http.get('../assets/data/401k.json');
   }
+
+  public getTotalInvestmentDetails(): Observable<any> {
+    return this.http.get('../assets/data/total-investments.json');
+  }
 }

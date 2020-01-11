@@ -24,6 +24,7 @@ import {
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     AppRoutingModule,
     HttpClientModule,
     NgxChartsModule,
+    NgxDatatableModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
     })
@@ -43,7 +45,6 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-
   ],
   providers: [],
   bootstrap: [AppComponent]

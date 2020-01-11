@@ -1,0 +1,20 @@
+[
+    {
+        "totalAmount": {
+            "_529": "6651.50",
+            "_401K": "4656.90",
+            "Roth_IRA": "468.30"
+        },
+        "insertDate": "2019-10-29",
+        "customerID": "deyvi_z"
+    },
+    {
+        "totalAmount": {
+            "_529": "6961.20",
+            "_401K": "5034.00",
+            "Roth_IRA": "494.80"
+        },
+        "insertDate": "2019-11-29",
+        "customerID": "deyvi_z"
+    }
+]

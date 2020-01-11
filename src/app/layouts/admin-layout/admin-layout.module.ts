@@ -12,6 +12,7 @@ import { MapsComponent } from '../../maps/maps.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 import { UpgradeComponent } from '../../upgrade/upgrade.component';
 import { MutualfundsComponent } from '../../mutualfunds/mutualfunds.component';
+import { InvestPiechartComponent } from '../../invest-piechart/invest-piechart.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import {
@@ -45,7 +46,8 @@ import {
     MapsComponent,
     NotificationsComponent,
     UpgradeComponent,
-    MutualfundsComponent
+    MutualfundsComponent,
+    InvestPiechartComponent
   ]
 })
 
