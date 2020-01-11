@@ -18,7 +18,7 @@ export class InvestPiechartComponent implements OnInit {
   // options
   showXAxis = true;
   showYAxis = true;
-  gradient = true;
+  gradient = false;
   showLegend = true;
   showXAxisLabel = true;
   xAxisLabel = 'Number';
@@ -27,9 +27,11 @@ export class InvestPiechartComponent implements OnInit {
   explodeSlices=false;
   yAxisLabel = 'Color Value';
   timeline = true;
-  colorScheme = {
+  /*colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C']
-  };
+  };*/
+
+  colorScheme = 'cool';
 
   investedAmount: Customer[];
   dataPie: any[] = new Array();
@@ -46,11 +48,16 @@ export class InvestPiechartComponent implements OnInit {
       this.investedAmount = data;
       this.tableData = data;
       this.investedAmount.forEach(model => {
-        this._401kNetWorth = Math.floor(model.totalAmount._401K);
-        this._529Worth= Math.floor(model.totalAmount._529);
-        this.iraWorth = Math.floor(model.totalAmount.Roth_IRA);
+        if(model.totalAmount._401K){  this._401kNetWorth = Math.floor(model.totalAmount._401K); }
+        if(model.totalAmount._529) {this._529Worth= Math.floor(model.totalAmount._529);}
+        if(model.totalAmount.Roth_IRA) { this.iraWorth = Math.floor(model.totalAmount.Roth_IRA);}
       });
       this.totalNetworth = (this._401kNetWorth + this._529Worth + this.iraWorth);
+      console.log('totalNetworth = '+this.totalNetworth);
+      console.log('_401kNetWorth = '+this._401kNetWorth);
+      console.log('_529Worth = '+this._529Worth);
+      console.log('iraWorth = '+this.iraWorth);
+
       this._401kNetWorth = ((this._401kNetWorth/this.totalNetworth) * 100);
       console.log('401K = '+this._401kNetWorth);
       const pieChartItem401 = { 'name': '401 K', 'value': this._401kNetWorth}

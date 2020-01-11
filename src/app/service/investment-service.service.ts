@@ -15,6 +15,6 @@ export class InvestmentServiceService {
   }
 
   public getTotalInvestmentDetails(): Observable<any> {
-    return this.http.get('../assets/data/total-investments.json');
+    return this.http.get<any>('https://yq77zlm7sb.execute-api.us-east-2.amazonaws.com/prod/networth');
   }
 }
