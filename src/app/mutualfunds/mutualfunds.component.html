@@ -1,20 +1,31 @@
 <div class="main-content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-8">
         <div class="card">
           <div class="card-body">
             <div class="table-responsive">
               <table class="table">
                 <thead class=" text-primary">
-                  <th>
-                    ID
+
+                  <th *ngFor="let header of tabledata401kHeader; let i=index">
+                    {{header}}
                   </th>
+
                 </thead>
                 <tbody>
-                  <tr>
+                  <tr *ngFor="let rowData of tabledata401kData; let i=index">
                     <td>
-                      1
+                      {{rowData['Fund_Name']}}
+                    </td>
+                    <td>
+                      {{rowData['Shares']}}
+                    </td>
+                    <td>
+                      {{rowData['AvgPrice']}}
+                    </td>
+                    <td>
+                      {{rowData['CurVal']}}
                     </td>
                   </tr>
                 </tbody>
@@ -23,11 +34,21 @@
           </div>
         </div>
       </div>
-
-
-      <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="data401k" [legend]="showLegend"
-        [explodeSlices]="explodeSlices" [labels]="showLabels" [doughnut]="doughnut" [gradient]="gradient"
-        (select)="onSelect($event)">
-      </ngx-charts-pie-chart>
-
     </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-body">
+            <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="data401k" [legend]="showLegend"
+              [explodeSlices]="explodeSlices" animations= "true" [labels]="showLabels" [doughnut]="doughnut" [gradient]="gradient"
+              (select)="onSelect($event)">
+            </ngx-charts-pie-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
