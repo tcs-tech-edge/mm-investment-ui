@@ -14,7 +14,7 @@ export class InvestPiechartComponent implements OnInit {
 
 
 
-  view: any[] = [250, 200];
+  view: any[] = [275, 200];
   // options
   showXAxis = true;
   showYAxis = true;
@@ -27,11 +27,9 @@ export class InvestPiechartComponent implements OnInit {
   explodeSlices=false;
   yAxisLabel = 'Color Value';
   timeline = true;
-  /*colorScheme = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C']
-  };*/
-
   colorScheme = 'cool';
+  showLabels=false;
+  legendPosition='below';
 
   investedAmount: Customer[];
   dataPie: any[] = new Array();
