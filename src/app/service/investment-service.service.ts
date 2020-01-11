@@ -11,7 +11,6 @@ export class InvestmentServiceService {
 
   public get401kData(): Observable<any> {
 
-    alert('401k service');
     return this.http.get('../assets/data/401k.json');
   }
 }

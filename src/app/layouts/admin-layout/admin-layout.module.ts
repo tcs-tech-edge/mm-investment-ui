@@ -12,6 +12,7 @@ import { MapsComponent } from '../../maps/maps.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 import { UpgradeComponent } from '../../upgrade/upgrade.component';
 import { MutualfundsComponent } from '../../mutualfunds/mutualfunds.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import {
   MatButtonModule,
@@ -33,6 +34,7 @@ import {
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
+    NgxChartsModule
   ],
   declarations: [
     DashboardComponent,

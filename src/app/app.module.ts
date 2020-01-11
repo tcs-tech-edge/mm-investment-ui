@@ -23,7 +23,7 @@ import {
 } from '@agm/core';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { HttpClientModule } from '@angular/common/http';
-
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   imports: [
@@ -35,6 +35,7 @@ import { HttpClientModule } from '@angular/common/http';
     RouterModule,
     AppRoutingModule,
     HttpClientModule,
+    NgxChartsModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
     })

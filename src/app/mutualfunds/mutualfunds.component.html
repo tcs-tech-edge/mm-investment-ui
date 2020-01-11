@@ -3,7 +3,6 @@
     <div class="row">
       <div class="col-md-12">
         <div class="card">
-
           <div class="card-body">
             <div class="table-responsive">
               <table class="table">
@@ -11,21 +10,24 @@
                   <th>
                     ID
                   </th>
-
                 </thead>
                 <tbody>
                   <tr>
                     <td>
                       1
                     </td>
-
                   </tr>
-
                 </tbody>
               </table>
             </div>
           </div>
         </div>
       </div>
+
+
+      <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="data401k" [legend]="showLegend"
+        [explodeSlices]="explodeSlices" [labels]="showLabels" [doughnut]="doughnut" [gradient]="gradient"
+        (select)="onSelect($event)">
+      </ngx-charts-pie-chart>
 
     </div>
