@@ -14,7 +14,6 @@ import { UpgradeComponent } from '../../upgrade/upgrade.component';
 import { MutualfundsComponent } from '../../mutualfunds/mutualfunds.component';
 import { InvestPiechartComponent } from '../../invest-piechart/invest-piechart.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import {
   MatButtonModule,
@@ -36,9 +35,7 @@ import {
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
-    NgxChartsModule,
-    FontAwesomeModule
-  ],
+    NgxChartsModule  ],
   declarations: [
     DashboardComponent,
     UserProfileComponent,
