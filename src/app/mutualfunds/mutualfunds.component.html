@@ -41,7 +41,7 @@
       <div class="col-md-8">
         <div class="card">
           <div class="card-body">
-            <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="data401k" [legend]="showLegend"
+            <ngx-charts-pie-chart [legendPosition]="'below'" [view]="view" [scheme]="colorScheme" [results]="data401k" [legend]="showLegend"
               [explodeSlices]="explodeSlices" animations= "true" [labels]="showLabels" [doughnut]="doughnut" [gradient]="gradient"
               (select)="onSelect($event)">
             </ngx-charts-pie-chart>
