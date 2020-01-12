@@ -11,10 +11,14 @@ export class InvestmentServiceService {
 
   public get401kData(): Observable<any> {
 
-    return this.http.get('../assets/data/401k.json');
+    return this.http.get('https://yq77zlm7sb.execute-api.us-east-2.amazonaws.com/prod/portfolio');
   }
 
   public getTotalInvestmentDetails(): Observable<any> {
     return this.http.get<any>('https://yq77zlm7sb.execute-api.us-east-2.amazonaws.com/prod/networth');
+  }
+
+  public getCurrentPrice(symbol) {
+    return this.http.get('https://financialmodelingprep.com/api/v3/stock/real-time-price/' + symbol);
   }
 }
