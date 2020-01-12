@@ -25,12 +25,12 @@ export class MutualfundsComponent implements OnInit {
   pieData: any[] = new Array();
   doughnut = false;
   showLabels = false
+  avgMargin = 0;
 
   tabledata401kHeader: String[] = new Array();
   tabledata401kData: any[] = new Array();
   colorScheme;
-
-
+  total401kWorth = 0;
 
   investmentModelArray: InvestmentModel[];
   // colorScheme = {
@@ -39,6 +39,7 @@ export class MutualfundsComponent implements OnInit {
   constructor(private investmentService: InvestmentServiceService) {
 
     // Header for the table
+    let calcNetWorth = 0
     this.tabledata401kHeader.push('Fund Name');
     this.tabledata401kHeader.push('Number of Shares');
     this.tabledata401kHeader.push('Avg Purchase Price');
@@ -48,18 +49,15 @@ export class MutualfundsComponent implements OnInit {
     this.investmentService.get401kData().subscribe(data => {
       this.investmentModelArray = data;
       const datasize = this.investmentModelArray.length;
-
       const domain: any = new Array();
-
-
-
       let i = 0;
       this.investmentModelArray.forEach((model, index) => {
         domain.push(this.getRandomColor());
         this.investmentService.getCurrentPrice(model.ticker).subscribe(priceData => {
-          const purchasePrice: any = (model.purchase_price * model.number_of_shares).toFixed(2);
-          const currentPrice: any = (priceData['price'] * model.number_of_shares).toFixed(2);
-          const margin = ((currentPrice - purchasePrice) * 100 / purchasePrice).toFixed(2)
+          const purchasePrice: any = parseFloat((model.purchase_price * model.number_of_shares).toFixed(2));
+          const currentPrice: any = parseFloat((priceData['price'] * model.number_of_shares).toFixed(2));
+          const margin = parseFloat(((currentPrice - purchasePrice) * 100 / purchasePrice).toFixed(2));
+          this.avgMargin = this.avgMargin + margin;
           this.tabledata401kData.push({
             'Fund_Name': model.ticker,
             'Shares': model.number_of_shares,
@@ -69,12 +67,16 @@ export class MutualfundsComponent implements OnInit {
             'Margin': margin
           })
           const pieChartItem = { 'name': model.ticker, 'value': currentPrice }
+          calcNetWorth = calcNetWorth + currentPrice;
+          console.log('calNetWorth ' + calcNetWorth);
+          console.log('currentPrice ' + currentPrice);
           this.pieData.push(pieChartItem);
           i = i + 1;
           if (i === datasize) {
             this.data401k = this.pieData;
             this.colorScheme = { 'domain': domain };
-
+            this.total401kWorth = calcNetWorth;
+            this.avgMargin = parseFloat((this.avgMargin / (datasize)).toFixed(2));
           }
         });
       });

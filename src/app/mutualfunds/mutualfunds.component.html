@@ -1,21 +1,41 @@
 <div class="main-content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-3 col-md-6 col-sm-6">
+      <div class="col-lg-4 col-md-6 col-sm-6">
+        <div class="card card-stats">
+          <div class="card-header card-header-success card-header-icon">
+            <div class="card-icon">
+              <i class="fas fa-hand-holding-usd"></i>
+            </div>
+            <p class="card-category">Total 401K Net Worth</p>
+            <h4 class="card-title"><b>{{this.total401kWorth | currency}}</b>
+
+            </h4>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="fas fa-check-circle"></i>
+              <a href="javascript:void(0)">Saving pattern is Good!</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 col-sm-6">
         <div class="card card-stats">
           <div class="card-header card-header-warning card-header-icon">
             <div class="card-icon">
-              <i class="material-icons">attach_money</i>
+              <i class="fas fa-percentage"></i>
+              <!-- <i class="material-icons">attach_money</i> -->
             </div>
-            <p class="card-category">Total Net Worth</p>
-            <h4 class="card-title">$10,345
+            <p class="card-category">Margin</p>
+            <h4 class="card-title"><b>{{this.avgMargin + "%"}}</b>
 
             </h4>
           </div>
           <div class="card-footer">
             <div class="stats">
               <i class="material-icons text-danger">warning</i>
-              <a href="javascript:void(0)">Consider increasing your saving</a>
+              <a href="javascript:void(0)">Consider rebalancing</a>
             </div>
           </div>
         </div>
