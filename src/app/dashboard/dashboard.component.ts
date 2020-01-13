@@ -291,19 +291,19 @@ export class DashboardComponent implements OnInit {
     }
 
     var dailySalesChart = new Chartist.Line(target, dataDailySalesChart, optionsDailySalesChart)
-                            .on("draw", function (data) {
-                              if (data.type === "point") {
-                                data.element._node.setAttribute("title", "" + data.value.y);
-                                data.element._node.setAttribute("data-chart-tooltip", targetForToolTip);
-                              }
-                            }).on("created", function () {
-                              // Initiate Tooltip
-                              $(target).tooltip({
-                                selector: selectorForToolTip,
-                                container: target,
-                                html: true
-                              });
-                            });
+                            // .on("draw", function (data) {
+                            //   if (data.type === "point") {
+                            //     data.element._node.setAttribute("title", "" + data.value.y);
+                            //     data.element._node.setAttribute("data-chart-tooltip", targetForToolTip);
+                            //   }
+                            // }).on("created", function () {
+                            //   // Initiate Tooltip
+                            //   $(target).tooltip({
+                            //     selector: selectorForToolTip,
+                            //     container: target,
+                            //     html: true
+                            //   });
+                            // });
 
     this.startAnimationForLineChart(dailySalesChart);
   }
