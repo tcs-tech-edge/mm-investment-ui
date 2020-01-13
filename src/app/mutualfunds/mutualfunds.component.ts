@@ -10,7 +10,7 @@ import { InvestmentModel } from '../model/model401k';
 
 export class MutualfundsComponent implements OnInit {
 
-  view: any[] = [500, 300];
+  view: any[] = [450, 250];
   // options
   showXAxis = true;
   showYAxis = true;
