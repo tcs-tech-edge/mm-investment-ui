@@ -4,7 +4,7 @@
 }
 
 /* Sets the legend width to auto expand to fit labels, but caps at 200px */
-.chart-legend > div {
+.chart-legend>div {
     width: auto !important;
     max-width: 200px;
 }
@@ -18,4 +18,39 @@
 .legend-label-text {
     white-space: normal !important;
     width: 100% !important;
+}
+
+::ng-deep .chart-legend .legend-labels {
+    line-height: 85%;
+    list-style: none;
+    text-align: left;
+    float: left;
+    width: 120% !important;
+    border-radius: 5px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    white-space: nowrap;
+    background: darkslategrey !important;
+}
+
+::ng-deep .chart-legend .legend-label-text {
+    display: inline-block;
+    vertical-align: top;
+    line-height: 15px;
+    font-size: 18px;
+    color: white;
+    font-weight: bolder;
+    width: calc(100% - 20px);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+::ng-deep  .chart-legend .legend-label-color {
+    display: inline-block;
+    height: 15px;
+    width: 30px !important;
+    margin-right: 5px;
+    color: #5b646b;
+    border-radius: 1px !important;
 }
