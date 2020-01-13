@@ -3,6 +3,8 @@
 
         <div class="row">
 
+            <div class="col-lg-1">&nbsp;</div>
+
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
                     <div class="card-header card-header-warning card-header-icon">
@@ -40,7 +42,7 @@
                 </div>
             </div>
 
-            <div class="col-md-2">&nbsp;</div>
+            <div class="col-lg-1">&nbsp;</div>
 
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <app-invest-piechart></app-invest-piechart>
@@ -49,17 +51,52 @@
         </div>
 
         <div class="row">
+            <div class="col-md-1" style="margin-top: 1rem; font-weight: bolder; padding: 0px 5px; text-align: right;">Trend Interval</div>
+            <div class="col-md-2" style="padding: 0px 5px;">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Select Interval
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <button class="dropdown-item" type="button" (click)="fiveDaysSelected()">5 DAYS</button>
+                        <button class="dropdown-item" type="button" (click)="twoWeeksSelected()">2 WEEKS</button>
+                        <!-- <button class="dropdown-item" type="button" (click)="oneMonthSelected()">1 MONTH</button> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">&nbsp;</div>
+        </div>
+
+        <!-- <div class="row">
+            <div class="col-md-4">&nbsp;</div>
             <div class="col-md-4">
                 <div class="card card-chart">
                     <div class="card-header card-header-danger">
-                        <div class="ct-chart" id="monthly_401k_chart"></div>
+                        <div class="ct-chart" id="completedTasksChart"></div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">401k Monthly Trend</h4>
-                        <!-- <p class="card-category">
-                            <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today
-                            sales.
-                        </p> -->
+                        <h4 class="card-title">401k Trend</h4>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i> //Placeholder for card footer//
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">&nbsp;</div>
+        </div> -->
+
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card card-chart">
+                    <div class="card-header card-header-danger">
+                        <div class="ct-chart" id="testChart_401k"></div>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">401k Trend</h4>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -72,14 +109,10 @@
             <div class="col-md-4">
                 <div class="card card-chart">
                     <div class="card-header card-header-info">
-                        <div class="ct-chart" id="monthly_ira_chart"></div>
+                        <div class="ct-chart" id="testChart_ira"></div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">IRA Monthly Trend</h4>
-                        <!-- <p class="card-category">
-                            <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today
-                            sales.
-                        </p> -->
+                        <h4 class="card-title">IRA Trend</h4>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -92,11 +125,10 @@
             <div class="col-md-4">
                 <div class="card card-chart">
                     <div class="card-header card-header-primary">
-                        <div class="ct-chart" id="monthly_529_chart"></div>
+                        <div class="ct-chart" id="testChart_529"></div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">529 Monthly Trend</h4>
-                        <!-- <p class="card-category">Last Campaign Performance</p> -->
+                        <h4 class="card-title">529 Trend</h4>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -104,70 +136,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card card-chart">
-                    <div class="card-header card-header-danger">
-                        <div class="ct-chart" id="weekly_401k_chart"></div>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">401k Weekly Trend</h4>
-                        <!-- <p class="card-category">
-                            <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today
-                            sales.
-                        </p> -->
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">access_time</i> //Placeholder for card footer//
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card card-chart">
-                    <div class="card-header card-header-info">
-                        <div class="ct-chart" id="weekly_ira_chart"></div>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">IRA Weekly Trend</h4>
-                        <!-- <p class="card-category">
-                        <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today
-                        sales.
-                    </p> -->
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">access_time</i> //Placeholder for card footer//
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card card-chart">
-                    <div class="card-header card-header-primary">
-                        <div class="ct-chart" id="weekly_529_chart"></div>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">529 Weekly Trend</h4>
-                        <!-- <p class="card-category">Last Campaign Performance</p> -->
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">access_time</i> //Placeholder for card footer//
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 

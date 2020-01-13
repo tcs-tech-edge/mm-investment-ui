@@ -1,4 +1,4 @@
 export class ConsolidatedNetworth{
-    weekNumberArray:String[];
-    weeklyTotalArray:number[];
+    xAxisValues:String[];
+    yAxisValues:number[];
 }

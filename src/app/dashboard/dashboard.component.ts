@@ -11,9 +11,7 @@ import { ConsolidatedNetworth } from 'app/model/modelNetworthWeek';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private _nws: NetworthService) {}
-
-  networth: NetWorth[];
+  constructor(private _nws: NetworthService) { }
 
   startAnimationForLineChart(chart) {
     let seq: any, delays: any, durations: any;
@@ -74,243 +72,9 @@ export class DashboardComponent implements OnInit {
     seq2 = 0;
   };
 
-  weeklyNetAmount_401: Map<String, Array<number>>;
-  weeklyNetAmount_529: Map<String, Array<number>>;
-  weeklyNetAmount_ira: Map<String, Array<number>>;
+  networth: NetWorth[];
 
-  wn_401: ConsolidatedNetworth;
-  wn_529: ConsolidatedNetworth;
-  wn_ira: ConsolidatedNetworth;
-
-  weekly_max_401k_total: number;
-  weekly_max_529_total: number;
-  weekly_max_ira_total: number;
-
-  monthlyNetAmount_401: Map<String, Array<number>>;
-  monthlyNetAmount_529: Map<String, Array<number>>;
-  monthlyNetAmount_ira: Map<String, Array<number>>;
-
-  mn_401: ConsolidatedNetworth;
-  mn_529: ConsolidatedNetworth;
-  mn_ira: ConsolidatedNetworth;
-
-  monthly_max_401k_total: number;
-  monthly_max_529_total: number;
-  monthly_max_ira_total: number;
-
-  convertMonthlyPlot(networth: NetWorth[]) {
-    console.log("Start convertMonthlyPlot");
-
-    this.monthlyNetAmount_401 = new Map<String, Array<number>>();
-    this.monthlyNetAmount_529 = new Map<String, Array<number>>();
-    this.monthlyNetAmount_ira = new Map<String, Array<number>>();
-
-    for (let i = 1; i <= 12; i++) {
-      let mString = "m" + i;
-      this.monthlyNetAmount_401.set(mString, new Array<number>());
-      this.monthlyNetAmount_529.set(mString, new Array<number>());
-      this.monthlyNetAmount_ira.set(mString, new Array<number>());
-    }
-
-    for (let i = 0; i < networth.length; i++) {
-
-      let yearValue = new Date(networth[i].insertDate).getFullYear();
-      if (yearValue == 2019) {
-        let givenMonth = new Date(networth[i].insertDate).getMonth() + 1;
-
-        let monthString = "m" + givenMonth;
-        let amount_401k = networth[i].totalAmount._401K;
-        let amount_529 = networth[i].totalAmount._529;
-        let amount_ira = networth[i].totalAmount.Roth_IRA;
-
-        if (this.monthlyNetAmount_401.has(monthString)) {
-          let amountArray_401: Number[] = this.monthlyNetAmount_401.get(monthString);
-          amountArray_401.push(Number(amount_401k));
-        }
-
-        if (this.monthlyNetAmount_529.has(monthString)) {
-          let amountArray_529: Number[] = this.monthlyNetAmount_529.get(monthString);
-          amountArray_529.push(Number(amount_529));
-        }
-
-        if (this.monthlyNetAmount_ira.has(monthString)) {
-          let amountArray_ira: Number[] = this.monthlyNetAmount_ira.get(monthString);
-          amountArray_ira.push(Number(amount_ira));
-        }
-      }
-    }
-
-    // console.log(this.monthlyNetAmount_401);
-    // console.log(this.monthlyNetAmount_529);
-    // console.log(this.monthlyNetAmount_ira);
-
-    this.mn_401 = new ConsolidatedNetworth();
-    this.mn_529 = new ConsolidatedNetworth();
-    this.mn_ira = new ConsolidatedNetworth();
-
-    this.mn_401.weekNumberArray = new Array<String>();
-    this.mn_401.weeklyTotalArray = new Array<number>();
-
-    this.mn_529.weekNumberArray = new Array<String>();
-    this.mn_529.weeklyTotalArray = new Array<number>();
-
-    this.mn_ira.weekNumberArray = new Array<String>();
-    this.mn_ira.weeklyTotalArray = new Array<number>();
-
-    this.getPlottingValues(this.monthlyNetAmount_401, this.mn_401);
-    this.getPlottingValues(this.monthlyNetAmount_529, this.mn_529);
-    this.getPlottingValues(this.monthlyNetAmount_ira, this.mn_ira);
-
-    // console.log(JSON.stringify(this.mn_401));
-    // console.log(JSON.stringify(this.mn_529));
-    // console.log(JSON.stringify(this.mn_ira));
-
-    this.monthly_max_401k_total = Math.max.apply(Math, this.mn_401.weeklyTotalArray.map(function (o) { return o; }))
-    this.monthly_max_529_total = Math.max.apply(Math, this.mn_529.weeklyTotalArray.map(function (o) { return o; }))
-    this.monthly_max_ira_total = Math.max.apply(Math, this.mn_ira.weeklyTotalArray.map(function (o) { return o; }))
-
-    // console.log("The max value of monthly 401k is: " + this.monthly_max_401k_total);
-    // console.log("The max value of monthly 529 is: " + this.monthly_max_529_total);
-    // console.log("The max value of monthly ira is: " + this.monthly_max_ira_total);
-
-    //console.log("End convertMonthlyPlot");
-  }
-
-  convertWeeklyPlot(networth: NetWorth[]) {
-
-    console.log("Inside convert convertWeeklyPlot");
-
-    this.weeklyNetAmount_401 = new Map<String, Array<number>>();
-    this.weeklyNetAmount_529 = new Map<String, Array<number>>();
-    this.weeklyNetAmount_ira = new Map<String, Array<number>>();
-
-    for (let i = 1; i <= 53; i++) {
-      let wString = "w" + i;
-      this.weeklyNetAmount_401.set(wString, new Array<number>());
-      this.weeklyNetAmount_529.set(wString, new Array<number>());
-      this.weeklyNetAmount_ira.set(wString, new Array<number>());
-    }
-
-    for (let i = 0; i < networth.length; i++) {
-
-      let yearValue = new Date(networth[i].insertDate).getFullYear();
-
-      if (yearValue == 2019) {
-        let givenWeek = this.getWeek(new Date(networth[i].insertDate));
-
-        let weekString = "w" + givenWeek;
-
-        let amount_401k = networth[i].totalAmount._401K;
-        let amount_529 = networth[i].totalAmount._529;
-        let amount_ira = networth[i].totalAmount.Roth_IRA;
-
-        if (this.weeklyNetAmount_401.has(weekString)) {
-          let amountArray_401: Number[] = this.weeklyNetAmount_401.get(weekString);
-          amountArray_401.push(Number(amount_401k));
-        }
-        
-        // else{
-        //   this.weeklyNetAmount_401.set(weekString, new Array<number>());
-        // }
-
-        if (this.weeklyNetAmount_529.has(weekString)) {
-          let amountArray_529: Number[] = this.weeklyNetAmount_529.get(weekString);
-          amountArray_529.push(Number(amount_529));
-        }
-        
-        // else{
-        //   this.weeklyNetAmount_529.set(weekString, new Array<number>());
-        // }
-
-        if (this.weeklyNetAmount_ira.has(weekString)) {
-          let amountArray_ira: Number[] = this.weeklyNetAmount_ira.get(weekString);
-          amountArray_ira.push(Number(amount_ira));
-        }
-        
-        // else{
-        //   this.weeklyNetAmount_ira.set(weekString, new Array<number>());
-        // }
-      }
-    }
-
-    // console.log(this.weeklyNetAmount_401);
-    // console.log(this.weeklyNetAmount_529);
-    // console.log(this.weeklyNetAmount_ira);
-
-    this.wn_401 = new ConsolidatedNetworth();
-    this.wn_529 = new ConsolidatedNetworth();
-    this.wn_ira = new ConsolidatedNetworth();
-
-    this.wn_401.weekNumberArray = new Array<String>();
-    this.wn_401.weeklyTotalArray = new Array<number>();
-
-    this.wn_529.weekNumberArray = new Array<String>();
-    this.wn_529.weeklyTotalArray = new Array<number>();
-
-    this.wn_ira.weekNumberArray = new Array<String>();
-    this.wn_ira.weeklyTotalArray = new Array<number>();
-
-    this.getPlottingValues(this.weeklyNetAmount_401, this.wn_401);
-    this.getPlottingValues(this.weeklyNetAmount_529, this.wn_529);
-    this.getPlottingValues(this.weeklyNetAmount_ira, this.wn_ira);
-
-    // console.log("wn_401: " + JSON.stringify(this.wn_401));
-    // console.log("wn_529: " + JSON.stringify(this.wn_529));
-    // console.log("wn_ira: " + JSON.stringify(this.wn_ira));
-
-    // let tempWeekStringArray = new Array<String>();
-    // let tempWeekTotalArray = new Array<number>();
-
-    // for(let i=0;i<this.wn_401.weekNumberArray.length;i++){
-
-    //   console.log("Outside: "+this.wn_401.weeklyTotalArray[i]);
-
-    //   if(!Number.isNaN(this.wn_401.weeklyTotalArray[i])){
-
-    //     console.log("Inside: "+this.wn_401.weeklyTotalArray[i]);
-
-    //     tempWeekStringArray.push(this.wn_401.weekNumberArray[i]);
-    //     tempWeekTotalArray.push(this.wn_401.weeklyTotalArray[i]);
-    //   }
-    // }
-
-    // this.wn_401.weekNumberArray = tempWeekStringArray;
-    // this.wn_401.weeklyTotalArray = tempWeekTotalArray;
-
-    // console.log("wn_401 after change: " + JSON.stringify(this.wn_401));
-
-    this.weekly_max_401k_total = Math.max.apply(Math, this.wn_401.weeklyTotalArray.map(function (o) { return o; }))
-    this.weekly_max_529_total = Math.max.apply(Math, this.wn_529.weeklyTotalArray.map(function (o) { return o; }))
-    this.weekly_max_ira_total = Math.max.apply(Math, this.wn_ira.weeklyTotalArray.map(function (o) { return o; }))
-
-    // console.log("The max value of 401k is: " + this.weekly_max_401k_total);
-    // console.log("The max value of 529 is: " + this.weekly_max_529_total);
-    // console.log("The max value of ira is: " + this.weekly_max_ira_total);
-
-    console.log("End of convertWeeklyPlot");
-  }
-
-  getPlottingValues(givenInputMap: Map<String, Array<number>>, result: ConsolidatedNetworth) {
-
-    givenInputMap.forEach((value: Array<number>, key: String) => {
-
-      if (key != "w1") {
-        let sum = 0;
-        for (let i = 0; i < value.length; i++) {
-          sum = sum + value[i];
-        }
-
-        //console.log(key + " == " + sum + " == " + Math.round(sum));
-
-        if(!Number.isNaN(Math.round(sum))){
-          result.weekNumberArray.push(key);
-          result.weeklyTotalArray.push(Math.round(sum));
-        }
-        
-      }
-    });
-   
-  }
+  
 
   getWeek(d: Date): Number {
 
@@ -340,115 +104,238 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  retrieveMonthlyTestChart(totalValueArray: number[], increment:number, maxValue: number, target: String){
-    const dataDailySalesChart: any = {
-      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
-      series: [
-        totalValueArray
-      ]
-    };
-
-    const optionsDailySalesChart: any = {
-      lineSmooth: Chartist.Interpolation.cardinal({
-        tension: 0
-      }),
-      height: 300,
-      low: 0,
-      high: maxValue + increment, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-      chartPadding: { top: 0, right: 0, bottom: 0, left: 30 },
-      axisY: {
-        labelInterpolationFnc: function(value:any) {
-          //console.log("The values are: "+ value + " == " + "$" + Number((value).toFixed(1)).toLocaleString());
-          return "$" + Number((value).toFixed(1)).toLocaleString();
-        }
-      }
-    }
-
-    var dailySalesChart = new Chartist.Line(target, dataDailySalesChart, optionsDailySalesChart);
-
-    this.startAnimationForLineChart(dailySalesChart);
-  }
-
-  retrieveMonthlyChart(totalValueArray: number[], increment:number, maxValue: number, target: String) {
-    const dataDailySalesChart: any = {
-      labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
-      series: [
-        totalValueArray
-      ]
-    };
-
-    const optionsDailySalesChart: any = {
-      lineSmooth: Chartist.Interpolation.cardinal({
-        tension: 0
-      }),
-      height: 300,
-      low: 0,
-      high: maxValue + increment, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-      chartPadding: { top: 0, right: 0, bottom: 0, left: 30 },
-      axisY: {
-        labelInterpolationFnc: function(value:any) {
-          //console.log("The values are: "+ value + " == " + "$" + Number((value).toFixed(1)).toLocaleString());
-          return "$" + Number((value).toFixed(1)).toLocaleString();
-        }
-      }
-    }
-
-    var dailySalesChart = new Chartist.Line(target, dataDailySalesChart, optionsDailySalesChart);
-
-    this.startAnimationForLineChart(dailySalesChart);
-  }
-
-
-  retrieveWeeklyChart(weeklyArray: String[], increment:number, totalValueArray: number[], maxValue: number, target: String) {
-    const dataDailySalesChart: any = {
-      labels: weeklyArray,
-      series: [
-        totalValueArray
-      ]
-    };
-
-    const optionsDailySalesChart: any = {
-      lineSmooth: Chartist.Interpolation.cardinal({
-        tension: 0
-      }),
-      low: 0,
-      high: maxValue + increment, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-      chartPadding: { top: 0, right: 0, bottom: 0, left: 30 },
-      axisY: {
-        labelInterpolationFnc: function(value:any) {
-          //console.log("The values are: "+ value + " == " + "$" + Number((value).toFixed(1)).toLocaleString());
-          return "$" + Number((value).toFixed(1)).toLocaleString();
-        }
-      }
-    }
-
-    var dailySalesChart = new Chartist.Line(target, dataDailySalesChart, optionsDailySalesChart);
-
-    this.startAnimationForLineChart(dailySalesChart);
-  }
-
-
-
   ngOnInit() {
 
     /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
 
     this._nws.getNetworth().subscribe(allNetworth => {
       this.networth = allNetworth;
-      this.convertWeeklyPlot(this.networth);
-      this.convertMonthlyPlot(this.networth);
 
-      this.retrieveMonthlyChart(this.mn_401.weeklyTotalArray, 5000, this.monthly_max_401k_total, '#monthly_401k_chart');
-      this.retrieveMonthlyChart(this.mn_529.weeklyTotalArray, 5000, this.monthly_max_529_total, '#monthly_529_chart');
-      this.retrieveMonthlyChart(this.mn_ira.weeklyTotalArray, 0, this.monthly_max_ira_total, '#monthly_ira_chart');
+      this.fiveDaysSelected();
 
-      this.retrieveWeeklyChart(this.wn_401.weekNumberArray, 5000, this.wn_401.weeklyTotalArray, this.weekly_max_401k_total, '#weekly_401k_chart');
-      this.retrieveWeeklyChart(this.wn_529.weekNumberArray, 5000, this.wn_529.weeklyTotalArray, this.weekly_max_529_total, '#weekly_529_chart');
-      this.retrieveWeeklyChart(this.wn_ira.weekNumberArray, 0, this.wn_ira.weeklyTotalArray, this.weekly_max_ira_total, '#weekly_ira_chart');
+      // TESTING CODE STARTS //
 
-      //this.retrieveMonthlyTestChart(this.mn_401.weeklyTotalArray, 5000, this.monthly_max_401k_total, '#testChart');
+      // const dataCompletedTasksChart: any = {
+      //   labels: ['12p', '3p', '6p'],
+      //   series: [
+      //     [230, 750, 450]
+      //   ]
+      // };
+
+      // const optionsCompletedTasksChart: any = {
+      //   lineSmooth: Chartist.Interpolation.cardinal({
+      //     tension: 0
+      //   }),
+      //   low: 0,
+      //   high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+      //   chartPadding: { top: 0, right: 0, bottom: 0, left: 0 }
+      // }
+
+      // var completedTasksChart = new Chartist.Line('#completedTasksChart',
+      //   dataCompletedTasksChart,
+      //   optionsCompletedTasksChart)
+      //   .on("draw", function (data) {
+      //     if (data.type === "point") {
+      //       data.element._node.setAttribute("title", "" + data.value.y);
+      //       data.element._node.setAttribute("data-chart-tooltip", "completedTasksChart");
+      //     }
+      //   }).on("created", function () {
+      //     // Initiate Tooltip
+      //     $("#completedTasksChart").tooltip({
+      //       selector: '[data-chart-tooltip="completedTasksChart"]',
+      //       container: "#completedTasksChart",
+      //       html: true
+      //     });
+      //   });
+
+      // // start animation for the Completed Tasks Chart - Line Chart
+      // this.startAnimationForLineChart(completedTasksChart);
+
+      // TESTING CODE ENDS //
     });
+
+  }
+
+  fiveDaysSelected() {
+    console.log("FIVE days selected");
+    document.getElementById('dropdownMenu2').innerHTML = '5 DAYS';
+
+    let sortedNetworth = this.networth.sort(function (a, b) {
+      return a.insertDate < b.insertDate ? 1 : a.insertDate > b.insertDate ? -1 : 0
+    });
+
+    let firstFive = sortedNetworth.slice(0, 5);
+
+    console.log(firstFive);
+    //this.convertToPlottingValues(firstFive, 5, "day");
+
+    this.consolidated_401k = new ConsolidatedNetworth();
+    this.consolidated_529 = new ConsolidatedNetworth();
+    this.consolidated_ira = new ConsolidatedNetworth();
+
+    this.getPlottingForDays(firstFive, this.consolidated_401k, this.consolidated_529, this.consolidated_ira);
+
+    this.max_401k_total = Math.max.apply(Math, this.consolidated_401k.yAxisValues.map(function (o) { return o; }))
+    this.max_529_total = Math.max.apply(Math, this.consolidated_529.yAxisValues.map(function (o) { return o; }))
+    this.max_ira_total = Math.max.apply(Math, this.consolidated_ira.yAxisValues.map(function (o) { return o; }))
+
+    console.log("max 401k: " + this.max_401k_total);
+    console.log("max 529: " + this.max_529_total);
+    console.log("max ira: " + this.max_ira_total);
+
+    this.min_401k_total = Math.min.apply(Math, this.consolidated_401k.yAxisValues.map(function (o) { return o; }))
+    this.min_529_total = Math.min.apply(Math, this.consolidated_529.yAxisValues.map(function (o) { return o; }))
+    this.min_ira_total = Math.min.apply(Math, this.consolidated_ira.yAxisValues.map(function (o) { return o; }))
+
+    console.log("min 401k: " + this.min_401k_total);
+    console.log("min 529: " + this.min_529_total);
+    console.log("min ira: " + this.min_ira_total);
+
+    this.retrieveTestChart(this.consolidated_401k.xAxisValues, this.consolidated_401k.yAxisValues, 1000, 1000, this.min_401k_total, this.max_401k_total, "#testChart_401k");
+    this.retrieveTestChart(this.consolidated_529.xAxisValues, this.consolidated_529.yAxisValues, 1000, 1000, this.min_529_total, this.max_529_total, "#testChart_529");
+    this.retrieveTestChart(this.consolidated_ira.xAxisValues, this.consolidated_ira.yAxisValues, 1000, 1000, this.min_ira_total, this.max_ira_total, "#testChart_ira");
+  }
+
+  twoWeeksSelected() {
+    console.log("TWO weeks selected");
+    document.getElementById('dropdownMenu2').innerHTML = '2 WEEKS';
+
+    let sortedNetworth = this.networth.sort(function (a, b) {
+      return a.insertDate < b.insertDate ? 1 : a.insertDate > b.insertDate ? -1 : 0
+    });
+
+    let firstFive = sortedNetworth.slice(0, 10);
+
+    console.log(firstFive);
+    //this.convertToPlottingValues(firstFive, 5, "day");
+
+    this.consolidated_401k = new ConsolidatedNetworth();
+    this.consolidated_529 = new ConsolidatedNetworth();
+    this.consolidated_ira = new ConsolidatedNetworth();
+
+    this.getPlottingForDays(firstFive, this.consolidated_401k, this.consolidated_529, this.consolidated_ira);
+
+    this.max_401k_total = Math.max.apply(Math, this.consolidated_401k.yAxisValues.map(function (o) { return o; }))
+    this.max_529_total = Math.max.apply(Math, this.consolidated_529.yAxisValues.map(function (o) { return o; }))
+    this.max_ira_total = Math.max.apply(Math, this.consolidated_ira.yAxisValues.map(function (o) { return o; }))
+
+    console.log("max 401k: " + this.max_401k_total);
+    console.log("max 529: " + this.max_529_total);
+    console.log("max ira: " + this.max_ira_total);
+
+    this.min_401k_total = Math.min.apply(Math, this.consolidated_401k.yAxisValues.map(function (o) { return o; }))
+    this.min_529_total = Math.min.apply(Math, this.consolidated_529.yAxisValues.map(function (o) { return o; }))
+    this.min_ira_total = Math.min.apply(Math, this.consolidated_ira.yAxisValues.map(function (o) { return o; }))
+
+    console.log("min 401k: " + this.min_401k_total);
+    console.log("min 529: " + this.min_529_total);
+    console.log("min ira: " + this.min_ira_total);
+
+    this.retrieveTestChart(this.consolidated_401k.xAxisValues, this.consolidated_401k.yAxisValues, 1000, 1000, this.min_401k_total, this.max_401k_total, "#testChart_401k");
+    this.retrieveTestChart(this.consolidated_529.xAxisValues, this.consolidated_529.yAxisValues, 1000, 1000, this.min_529_total, this.max_529_total, "#testChart_529");
+    this.retrieveTestChart(this.consolidated_ira.xAxisValues, this.consolidated_ira.yAxisValues, 1000, 1000, this.min_ira_total, this.max_ira_total, "#testChart_ira");
+  }
+
+  oneMonthSelected() {
+    console.log("ONE month selected");
+    document.getElementById('dropdownMenu2').innerHTML = '1 MONTH';
+  }
+
+  map_401k: Map<String, Array<number>>;
+  map_529: Map<String, Array<number>>;
+  map_ira: Map<String, Array<number>>;
+
+  consolidated_401k: ConsolidatedNetworth;
+  consolidated_529: ConsolidatedNetworth;
+  consolidated_ira: ConsolidatedNetworth;
+
+  max_401k_total: number;
+  max_529_total: number;
+  max_ira_total: number;
+
+  min_401k_total: number;
+  min_529_total: number;
+  min_ira_total: number;
+
+  getPlottingForDays(givenNetworthValues: NetWorth[], result1: ConsolidatedNetworth, result2: ConsolidatedNetworth, result3: ConsolidatedNetworth) {
+    let xAxis = new Array<String>();
+
+    let yAxis_401k = new Array<number>();
+    let yAxis_529 = new Array<number>();
+    let yAxis_ira = new Array<number>();
+
+    for (let i = 0; i < givenNetworthValues.length; i++) {
+      xAxis.push(this.getFormattedDate(givenNetworthValues[i].insertDate));
+      yAxis_401k.push(Number(givenNetworthValues[i].totalAmount._401K));
+      yAxis_529.push(Number(givenNetworthValues[i].totalAmount._529));
+      yAxis_ira.push(Number(givenNetworthValues[i].totalAmount.Roth_IRA));
+    }
+
+    result1.xAxisValues = xAxis;
+    result1.yAxisValues = yAxis_401k;
+
+    result2.xAxisValues = xAxis;
+    result2.yAxisValues = yAxis_529;
+
+    result3.xAxisValues = xAxis;
+    result3.yAxisValues = yAxis_ira;
+  }
+
+  getFormattedDate(givenDate: Date) {
+    // let dateString: String = new Date(givenDate).toDateString();
+    // return dateString.substring(dateString.indexOf(" "), dateString.lastIndexOf(" "));
+
+    let dateString: String = new Date(givenDate).toLocaleDateString();
+    return dateString.substring(0, dateString.lastIndexOf("/"));
+
     
+  }
+
+  retrieveTestChart(xAxisValues: String[], yAxisValues: number[], decrement: number, increment: number, minValue: number, maxValue: number, target: string) {
+
+    let targetForToolTip:String = target.substring(1,target.length);
+    let selectorForToolTip:string = '[data-chart-tooltip="' + targetForToolTip + '"]';
+
+    const dataDailySalesChart: any = {
+      labels: xAxisValues,
+      series: [
+        yAxisValues
+      ]
+    };
+
+    const optionsDailySalesChart: any = {
+      lineSmooth: Chartist.Interpolation.cardinal({
+        tension: 0
+      }),
+      height: 300,
+      ticks: ['a', 'b', 'c', 'd', 'e'],
+      low: minValue - decrement,
+      high: maxValue + increment, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+      chartPadding: { top: 0, right: 0, bottom: 0, left: 30 },
+      axisY: {
+        labelInterpolationFnc: function (value: any) {
+          //console.log("The values are: "+ value + " == " + "$" + Number((value).toFixed(1)).toLocaleString());
+          return "$" + Number((value).toFixed(1)).toLocaleString();
+        }
+      }
+    }
+
+    var dailySalesChart = new Chartist.Line(target, dataDailySalesChart, optionsDailySalesChart)
+                            .on("draw", function (data) {
+                              if (data.type === "point") {
+                                data.element._node.setAttribute("title", "" + data.value.y);
+                                data.element._node.setAttribute("data-chart-tooltip", targetForToolTip);
+                              }
+                            }).on("created", function () {
+                              // Initiate Tooltip
+                              $(target).tooltip({
+                                selector: selectorForToolTip,
+                                container: target,
+                                html: true
+                              });
+                            });
+
+    this.startAnimationForLineChart(dailySalesChart);
   }
 
 }
