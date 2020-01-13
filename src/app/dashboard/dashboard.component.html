@@ -1,18 +1,31 @@
 <div class="main-content">
     <div class="container-fluid">
-
         <div class="row">
-            <div class="col-lg-6 col-md-8 col-sm-12">
-                <app-invest-piechart></app-invest-piechart>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-warning card-header-icon">
+                        <div class="card-icon">
+                            <i class="fas fa-piggy-bank"></i>
+                        </div>
+                        <p class="card-category">Accounts</p>
+                        <h3 class="card-title">4
+                        </h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons text-gray">info</i>
+                            <a href="javascript:void(0)">Wells Fargo, ML, Vanguard, Etrade</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div class="col-lg-6 col-md-8 col-sm-12">
+            <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="card card-stats">
                     <div class="card-header card-header-success card-header-icon">
                         <div class="card-icon">
-                            <i class="fas fa-chart-line"></i>
+                            <i class="fas fa-hand-holding-usd"></i>
                         </div>
-                        <p class="card-category">Average Marging</p>
+                        <p class="card-category">All Accounts Total</p>
                         <h3 class="card-title">$34,245</h3>
                     </div>
                     <div class="card-footer">
@@ -20,102 +33,85 @@
                             <i class="material-icons">date_range</i> Last 24 Hours
                         </div>
                     </div>
-
-                </div>
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1" style="margin-top: 1rem; font-weight: bolder; padding: 0px 5px; text-align: right;">
-                Trend Interval</div>
-            <div class="col-md-2" style="padding: 0px 5px;">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Select Interval
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        <button class="dropdown-item" type="button" (click)="fiveDaysSelected()">5 DAYS</button>
-                        <button class="dropdown-item" type="button" (click)="twoWeeksSelected()">2 WEEKS</button>
-                        <!-- <button class="dropdown-item" type="button" (click)="oneMonthSelected()">1 MONTH</button> -->
-                    </div>
                 </div>
             </div>
-            <div class="col-md-9">&nbsp;</div>
-        </div>
 
-        <!-- <div class="row">
-            <div class="col-md-4">&nbsp;</div>
-            <div class="col-md-4">
-                <div class="card card-chart">
-                    <div class="card-header card-header-danger">
-                        <div class="ct-chart" id="completedTasksChart"></div>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">401k Trend</h4>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-info card-header-icon">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <p class="card-category">Day's Change</p>
+                        <h3 class="card-title">$2987</h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">access_time</i> //Placeholder for card footer//
+                            <i class="material-icons">update</i> Just Updated
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">&nbsp;</div>
-        </div> -->
-
+        </div>
 
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-lg-5 col-md-12 col-sm-12">
+                <app-invest-piechart></app-invest-piechart>
+                <app-invest-piechart></app-invest-piechart>
+            </div>
+            <div class="col-lg-7 col-md-12 col-sm-12">
+                <app-mutualfunds></app-mutualfunds>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-12 col-sm-12">
                 <div class="card card-chart">
                     <div class="card-header card-header-danger">
                         <div class="ct-chart" id="testChart_401k"></div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">401k Trend</h4>
+                        <h4 class="card-title">401k Weekly Trend</h4>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">access_time</i> //Placeholder for card footer//
+                            <i class="material-icons">access_time</i> $XXX Change in Value
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-lg-4 col-md-12 col-sm-12">
                 <div class="card card-chart">
                     <div class="card-header card-header-info">
                         <div class="ct-chart" id="testChart_ira"></div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">IRA Trend</h4>
+                        <h4 class="card-title">IRA Weekly Trend</h4>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">access_time</i> //Placeholder for card footer//
+                            <i class="material-icons">access_time</i> $XXX Change in Value
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-lg-4 col-md-12 col-sm-12">
                 <div class="card card-chart">
                     <div class="card-header card-header-primary">
                         <div class="ct-chart" id="testChart_529"></div>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title">529 Trend</h4>
+                        <h4 class="card-title">529 Weekly Trend</h4>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">access_time</i> //Placeholder for card footer//
+                            <i class="material-icons">access_time</i> $XXX Change in Value
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
-
     </div>
-
 </div>

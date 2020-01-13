@@ -10,8 +10,6 @@ import { ConsolidatedNetworth } from 'app/model/modelNetworthWeek';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-;
-;
 
   networth: NetWorth[];
 
@@ -127,7 +125,11 @@ export class DashboardComponent implements OnInit {
     this._nws.getNetworth().subscribe(allNetworth => {
       this.networth = allNetworth;
 
-      this.fiveDaysSelected();
+      const sortedNetworth = this.networth.sort(function (a, b) {
+        return a.insertDate < b.insertDate ? 1 : a.insertDate > b.insertDate ? -1 : 0
+      });
+
+      this.getChartsForDays(sortedNetworth, 5);
 
       // TESTING CODE STARTS //
 
@@ -143,7 +145,7 @@ export class DashboardComponent implements OnInit {
       //     tension: 0
       //   }),
       //   low: 0,
-      //   high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+      //   high: 1000,
       //   chartPadding: { top: 0, right: 0, bottom: 0, left: 0 }
       // }
 
@@ -228,15 +230,15 @@ export class DashboardComponent implements OnInit {
     console.log('min ira: ' + this.min_ira_total);
 
     this.retrieveTestChart(this.consolidated_401k.xAxisValues, this.consolidated_401k.yAxisValues,
-       1000, 1000, this.min_401k_total, this.max_401k_total, '#testChart_401k');
+      10, 10, this.min_401k_total, this.max_401k_total, '#testChart_401k');
     this.retrieveTestChart(this.consolidated_529.xAxisValues, this.consolidated_529.yAxisValues,
-       1000, 1000, this.min_529_total, this.max_529_total, '#testChart_529');
+      10, 10, this.min_529_total, this.max_529_total, '#testChart_529');
     this.retrieveTestChart(this.consolidated_ira.xAxisValues, this.consolidated_ira.yAxisValues,
-       1000, 1000, this.min_ira_total, this.max_ira_total, '#testChart_ira');
+      10, 10, this.min_ira_total, this.max_ira_total, '#testChart_ira');
   }
 
   getPlottingForDays(givenNetworthValues: NetWorth[], result1: ConsolidatedNetworth,
-     result2: ConsolidatedNetworth, result3: ConsolidatedNetworth) {
+    result2: ConsolidatedNetworth, result3: ConsolidatedNetworth) {
     const xAxis = new Array<String>();
 
     const yAxis_401k = new Array<number>();
@@ -266,7 +268,7 @@ export class DashboardComponent implements OnInit {
   }
 
   retrieveTestChart(xAxisValues: String[], yAxisValues: number[], decrement: number,
-     increment: number, minValue: number, maxValue: number, target: string) {
+    increment: number, minValue: number, maxValue: number, target: string) {
 
     const targetForToolTip: String = target.substring(1, target.length);
     const selectorForToolTip: string = '[data-chart-tooltip="' + targetForToolTip + '"]';
@@ -285,7 +287,7 @@ export class DashboardComponent implements OnInit {
       height: 300,
       ticks: ['a', 'b', 'c', 'd', 'e'],
       low: minValue - decrement,
-      high: maxValue + increment, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+      high: maxValue + increment, //  tim: we recommend you to set the high sa the biggest value + something for a better look
       chartPadding: { top: 0, right: 0, bottom: 0, left: 30 },
       axisY: {
         labelInterpolationFnc: function (value: any) {
@@ -296,19 +298,19 @@ export class DashboardComponent implements OnInit {
     }
 
     const dailySalesChart = new Chartist.Line(target, dataDailySalesChart, optionsDailySalesChart)
-                            // .on("draw", function (data) {
-                            //   if (data.type === "point") {
-                            //     data.element._node.setAttribute("title", "" + data.value.y);
-                            //     data.element._node.setAttribute("data-chart-tooltip", targetForToolTip);
-                            //   }
-                            // }).on("created", function () {
-                            //   // Initiate Tooltip
-                            //   $(target).tooltip({
-                            //     selector: selectorForToolTip,
-                            //     container: target,
-                            //     html: true
-                            //   });
-                            // });
+    // .on("draw", function (data) {
+    //   if (data.type === "point") {
+    //     data.element._node.setAttribute("title", "" + data.value.y);
+    //     data.element._node.setAttribute("data-chart-tooltip", targetForToolTip);
+    //   }
+    // }).on("created", function () {
+    //   // Initiate Tooltip
+    //   $(target).tooltip({
+    //     selector: selectorForToolTip,
+    //     container: target,
+    //     html: true
+    //   });
+    // });
 
     this.startAnimationForLineChart(dailySalesChart);
   }
