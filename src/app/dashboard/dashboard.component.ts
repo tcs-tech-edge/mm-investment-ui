@@ -164,36 +164,7 @@ export class DashboardComponent implements OnInit {
       return a.insertDate < b.insertDate ? 1 : a.insertDate > b.insertDate ? -1 : 0
     });
 
-    let firstFive = sortedNetworth.slice(0, 5);
-
-    console.log(firstFive);
-    //this.convertToPlottingValues(firstFive, 5, "day");
-
-    this.consolidated_401k = new ConsolidatedNetworth();
-    this.consolidated_529 = new ConsolidatedNetworth();
-    this.consolidated_ira = new ConsolidatedNetworth();
-
-    this.getPlottingForDays(firstFive, this.consolidated_401k, this.consolidated_529, this.consolidated_ira);
-
-    this.max_401k_total = Math.max.apply(Math, this.consolidated_401k.yAxisValues.map(function (o) { return o; }))
-    this.max_529_total = Math.max.apply(Math, this.consolidated_529.yAxisValues.map(function (o) { return o; }))
-    this.max_ira_total = Math.max.apply(Math, this.consolidated_ira.yAxisValues.map(function (o) { return o; }))
-
-    console.log("max 401k: " + this.max_401k_total);
-    console.log("max 529: " + this.max_529_total);
-    console.log("max ira: " + this.max_ira_total);
-
-    this.min_401k_total = Math.min.apply(Math, this.consolidated_401k.yAxisValues.map(function (o) { return o; }))
-    this.min_529_total = Math.min.apply(Math, this.consolidated_529.yAxisValues.map(function (o) { return o; }))
-    this.min_ira_total = Math.min.apply(Math, this.consolidated_ira.yAxisValues.map(function (o) { return o; }))
-
-    console.log("min 401k: " + this.min_401k_total);
-    console.log("min 529: " + this.min_529_total);
-    console.log("min ira: " + this.min_ira_total);
-
-    this.retrieveTestChart(this.consolidated_401k.xAxisValues, this.consolidated_401k.yAxisValues, 1000, 1000, this.min_401k_total, this.max_401k_total, "#testChart_401k");
-    this.retrieveTestChart(this.consolidated_529.xAxisValues, this.consolidated_529.yAxisValues, 1000, 1000, this.min_529_total, this.max_529_total, "#testChart_529");
-    this.retrieveTestChart(this.consolidated_ira.xAxisValues, this.consolidated_ira.yAxisValues, 1000, 1000, this.min_ira_total, this.max_ira_total, "#testChart_ira");
+    this.getChartsForDays(sortedNetworth, 5);
   }
 
   twoWeeksSelected() {
@@ -204,7 +175,16 @@ export class DashboardComponent implements OnInit {
       return a.insertDate < b.insertDate ? 1 : a.insertDate > b.insertDate ? -1 : 0
     });
 
-    let firstFive = sortedNetworth.slice(0, 10);
+    this.getChartsForDays(sortedNetworth, 10);
+  }
+
+  oneMonthSelected() {
+    console.log("ONE month selected");
+    document.getElementById('dropdownMenu2').innerHTML = '1 MONTH';
+  }
+
+  getChartsForDays(sortedNetworth:NetWorth[], days:number){
+    let firstFive = sortedNetworth.slice(0, days);
 
     console.log(firstFive);
     //this.convertToPlottingValues(firstFive, 5, "day");
@@ -234,11 +214,6 @@ export class DashboardComponent implements OnInit {
     this.retrieveTestChart(this.consolidated_401k.xAxisValues, this.consolidated_401k.yAxisValues, 1000, 1000, this.min_401k_total, this.max_401k_total, "#testChart_401k");
     this.retrieveTestChart(this.consolidated_529.xAxisValues, this.consolidated_529.yAxisValues, 1000, 1000, this.min_529_total, this.max_529_total, "#testChart_529");
     this.retrieveTestChart(this.consolidated_ira.xAxisValues, this.consolidated_ira.yAxisValues, 1000, 1000, this.min_ira_total, this.max_ira_total, "#testChart_ira");
-  }
-
-  oneMonthSelected() {
-    console.log("ONE month selected");
-    document.getElementById('dropdownMenu2').innerHTML = '1 MONTH';
   }
 
   map_401k: Map<String, Array<number>>;
@@ -282,13 +257,8 @@ export class DashboardComponent implements OnInit {
   }
 
   getFormattedDate(givenDate: Date) {
-    // let dateString: String = new Date(givenDate).toDateString();
-    // return dateString.substring(dateString.indexOf(" "), dateString.lastIndexOf(" "));
-
     let dateString: String = new Date(givenDate).toLocaleDateString();
     return dateString.substring(0, dateString.lastIndexOf("/"));
-
-    
   }
 
   retrieveTestChart(xAxisValues: String[], yAxisValues: number[], decrement: number, increment: number, minValue: number, maxValue: number, target: string) {
