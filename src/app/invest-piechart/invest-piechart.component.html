@@ -1,21 +1,25 @@
 <div class="card card-chart">
-<div class="card-header card-header-warning">
-  <!-- <div class="ct-chart" id="dailySalesChart"></div> -->
-  <div class="ct-chart">
-  <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="dataPie" [legend]="showLegend"
-    [explodeSlices]="explodeSlices" [labels]="showLabels" [doughnut]="doughnut" [gradient]="gradient" [legendPosition]="legendPosition"
-    (select)="onSelect($event)">
-  </ngx-charts-pie-chart>
-  </div>
-</div>
-<div class="card-body">
-  <h4 class="card-title">Total Networth</h4>
+  
+  <div class="card-body">
+    <h4>Investment Distribution</h4>
+    <div class="ct-chart">
+      <!-- <ngx-charts-pie-chart [view]="view"   [scheme]="colorScheme" [results]="dataPie" [legend]="showLegend"
+        [explodeSlices]="explodeSlices" [labels]="showLabels" [trimLabels]="'false'" [doughnut]="doughnut" 
+        [gradient]="gradient"
+        [legendPosition]="legendPosition" (select)="onSelect($event)">
+      </ngx-charts-pie-chart> -->
+
+      <ngx-charts-advanced-pie-chart
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="dataPie"
+      [gradient]="gradient"
+      (select)="onSelect($event)">
+    </ngx-charts-advanced-pie-chart>
+    </div>
+    <!-- <h4 class="card-title">Total Networth</h4>
   <p class="card-category">
-    <span class="text-success">Your total Networth across investments is {{totalNetworth | currency:"USD$"}} . </span></p>
-</div>
-<div class="card-footer">
-  <div class="stats">
-    <i class="material-icons">access_time</i> updated 4 minutes ago
+    <span class="text-success">Your total Networth across investments is {{totalNetworth | currency:"USD$"}} . </span></p> -->
   </div>
-</div>
+
 </div>

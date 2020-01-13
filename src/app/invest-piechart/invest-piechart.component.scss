@@ -1,0 +1,14 @@
+.pie-chart {
+    background-color: white;
+}
+
+.custom-label-text {
+    background-color: #00b400;
+    color: #fff;
+}
+
+::ng-deep .advanced-pie-legend .legend-items-container .legend-items .legend-item .item-value {
+    font-size: 14px !important;
+    margin-top: -6px;
+    margin-left: 11px;
+}
