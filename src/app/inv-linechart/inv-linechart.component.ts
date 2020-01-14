@@ -74,7 +74,7 @@ export class InvLinechartComponent implements OnInit {
 
       }
 
-       const multi = [
+      const multi = [
         {
           'name': '401K',
           'series': yAxis_401k
@@ -91,12 +91,25 @@ export class InvLinechartComponent implements OnInit {
       Object.assign(this, { multi });
       console.log('filterNetworth', filterNetworth)
     });
-   
-    
+
+
   }
 
   getFormattedDate(givenDate: Date) {
     const dateString: String = new Date(givenDate).toLocaleDateString();
     return dateString.substring(0, dateString.lastIndexOf('/'));
   }
+
+  onSelect(data): void {
+    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
+  }
+
+  onActivate(data): void {
+    console.log('Activate', JSON.parse(JSON.stringify(data)));
+  }
+
+  onDeactivate(data): void {
+    console.log('Deactivate', JSON.parse(JSON.stringify(data)));
+  }
+
 }
