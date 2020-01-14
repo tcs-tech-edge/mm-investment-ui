@@ -103,6 +103,8 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  sortedNetworth:NetWorth[];
+
   ngOnInit() {
 
     /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
@@ -110,11 +112,13 @@ export class DashboardComponent implements OnInit {
     this._nws.getNetworth().subscribe(allNetworth => {
       this.networth = allNetworth;
 
-      const sortedNetworth = this.networth.sort(function (a, b) {
+      document.getElementById('dropdownMenu2').innerHTML = '5 DAYS';
+
+      this.sortedNetworth = this.networth.sort(function (a, b) {
         return a.insertDate < b.insertDate ? 1 : a.insertDate > b.insertDate ? -1 : 0
       });
 
-      this.getChartsForDays(sortedNetworth, 5);
+      this.getChartsForDays(this.sortedNetworth, 5);
 
       // TESTING CODE STARTS //
 
@@ -163,22 +167,14 @@ export class DashboardComponent implements OnInit {
     console.log('FIVE days selected');
     document.getElementById('dropdownMenu2').innerHTML = '5 DAYS';
 
-    const sortedNetworth = this.networth.sort(function (a, b) {
-      return a.insertDate < b.insertDate ? 1 : a.insertDate > b.insertDate ? -1 : 0
-    });
-
-    this.getChartsForDays(sortedNetworth, 5);
+    this.getChartsForDays(this.sortedNetworth, 5);
   }
 
   twoWeeksSelected() {
     console.log('TWO weeks selected');
     document.getElementById('dropdownMenu2').innerHTML = '2 WEEKS';
 
-    const sortedNetworth = this.networth.sort(function (a, b) {
-      return a.insertDate < b.insertDate ? 1 : a.insertDate > b.insertDate ? -1 : 0
-    });
-
-    this.getChartsForDays(sortedNetworth, 10);
+    this.getChartsForDays(this.sortedNetworth, 10);
   }
 
   oneMonthSelected() {
@@ -259,9 +255,9 @@ export class DashboardComponent implements OnInit {
     const selectorForToolTip: string = '[data-chart-tooltip="' + targetForToolTip + '"]';
 
     const dataDailySalesChart: any = {
-      labels: xAxisValues,
+      labels: xAxisValues.reverse(),
       series: [
-        yAxisValues
+        yAxisValues.reverse()
       ]
     };
 
