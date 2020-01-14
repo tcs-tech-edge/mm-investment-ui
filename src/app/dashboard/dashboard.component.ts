@@ -32,13 +32,33 @@ export class DashboardComponent implements OnInit {
   min_529_total: number;
   min_ira_total: number;
 
+  currentTotal401k = 0;
+  currentTotal529 = 0;
+  currentTotalIRA = 0;
+
   accountTotalValue: number;
 
   constructor(private _nws: NetworthService, private transferService: TransferService) { 
-    this.transferService.totalAccountValue.subscribe( data => {
-      this.accountTotalValue = data;
-      console.log("Recievd in dashboard &&&&&&& "+this.accountTotalValue);
+    // this.transferService.totalAccountValue.subscribe( data => {
+    //   this.accountTotalValue = data;
+    //   console.log("Recievd in dashboard &&&&&&& "+this.accountTotalValue);
+    // });
+
+    this.transferService.total401KValue.subscribe( _401kdata => {
+      this.currentTotal401k = _401kdata;
+      this.transferService.total529Value.subscribe( _529data => {
+        this.currentTotal529 = _529data;
+        this.transferService.totalIRAValue.subscribe( IRAdata => {
+          this.currentTotalIRA = IRAdata;
+          console.log(this.currentTotal401k + ' - ' + this.currentTotal529 + ' - '+ this.currentTotalIRA)
+          this.accountTotalValue = this.currentTotal401k + this.currentTotal529 + this.currentTotalIRA;
+        });
+      });
     });
+
+    
+
+    
   }
 
   startAnimationForLineChart(chart) {

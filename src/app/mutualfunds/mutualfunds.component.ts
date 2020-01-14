@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InvestmentServiceService } from '../service/investment-service.service';
 import { InvestmentModel } from '../model/model401k';
+import { TransferService } from '../service/transfer.service';
 
 import {
   trigger,
@@ -81,6 +82,9 @@ export class MutualfundsComponent implements OnInit {
   doughnut = false;
   showLabels = false
   avgMargin = 0;
+  currentTotal401K = 0;
+  currentTotal529 = 0;
+  currentTotalIRA = 0;
 
   tabledata401kHeader: String[] = new Array();
   //tabledata401kData: any[] = new Array();
@@ -95,7 +99,7 @@ export class MutualfundsComponent implements OnInit {
   // colorScheme = {
   //   domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   // };
-  constructor(private investmentService: InvestmentServiceService) {
+  constructor(private investmentService: InvestmentServiceService, private transferService:TransferService) {
 
     // Header for the table
     let calcNetWorth = 0
@@ -137,6 +141,7 @@ export class MutualfundsComponent implements OnInit {
                 'CurVal': currentPrice,
                 'Margin': margin
               })
+              this.currentTotal529 = this.currentTotal529 + currentPrice;
               break;
             }
 
@@ -149,6 +154,7 @@ export class MutualfundsComponent implements OnInit {
                 'CurVal': currentPrice,
                 'Margin': margin
               })
+              this.currentTotal401K = this.currentTotal401K + currentPrice;
               break;
             }
 
@@ -161,6 +167,7 @@ export class MutualfundsComponent implements OnInit {
                 'CurVal': currentPrice,
                 'Margin': margin
               })
+              this.currentTotalIRA = this.currentTotalIRA + currentPrice;
               break;
             }
 
@@ -173,6 +180,8 @@ export class MutualfundsComponent implements OnInit {
           calcNetWorth = calcNetWorth + currentPrice;
           //console.log('calNetWorth ' + calcNetWorth);
           //console.log('currentPrice ' + currentPrice);
+          console.log('||||||||||||||||||||||||| total value'+this.currentTotalIRA);
+          transferService.pushAccountTotalValues(this.currentTotal401K, this.currentTotal529, this.currentTotalIRA);
           this.pieData.push(pieChartItem);
           i = i + 1;
           if (i === datasize) {
@@ -182,8 +191,8 @@ export class MutualfundsComponent implements OnInit {
             this.avgMargin = parseFloat((this.avgMargin / (datasize)).toFixed(2));
           }
         });
+      
       });
-
     });
   }
   ngOnInit() {
