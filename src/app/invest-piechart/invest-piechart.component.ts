@@ -12,9 +12,6 @@ import { Customer } from '../model/customer';
   styleUrls: ['./invest-piechart.component.scss']
 })
 export class InvestPiechartComponent implements OnInit {
-
-
-
   view: any[] = [600, 200];
   // options
   showXAxis = true;
