@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { InvestmentServiceService } from '../service/investment-service.service';
+import { TransferService } from '../service/transfer.service';
 import { Customer } from '../model/customer';
 
 
@@ -39,7 +40,7 @@ export class InvestPiechartComponent implements OnInit {
   totalNetworth: number = 0;
 
   tableData: Customer[];
-  constructor(private investmentService: InvestmentServiceService) {
+  constructor(private investmentService: InvestmentServiceService, private transferService: TransferService) {
     const pieData: any[] = new Array();
     investmentService.getTotalInvestmentDetails().subscribe(data => {
       console.log(data);
@@ -51,6 +52,7 @@ export class InvestPiechartComponent implements OnInit {
         if (model.totalAmount.Roth_IRA) { this.iraWorth = Math.floor(model.totalAmount.Roth_IRA); }
       });
       this.totalNetworth = (this._401kNetWorth + this._529Worth + this.iraWorth);
+      transferService.pushTotalValue(this.totalNetworth);
       console.log('totalNetworth = ' + this.totalNetworth);
       console.log('_401kNetWorth = ' + this._401kNetWorth);
       console.log('_529Worth = ' + this._529Worth);

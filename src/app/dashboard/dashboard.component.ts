@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import * as Chartist from 'chartist';
 import { NetworthService } from 'app/service/networth.service';
+import { InvestmentServiceService } from '../service/investment-service.service';
+import { TransferService } from '../service/transfer.service';
+
 import { NetWorth } from 'app/model/modelNetWorth';
 import { ConsolidatedNetworth } from 'app/model/modelNetworthWeek';
 
@@ -29,7 +32,14 @@ export class DashboardComponent implements OnInit {
   min_529_total: number;
   min_ira_total: number;
 
-  constructor(private _nws: NetworthService) { }
+  accountTotalValue: number;
+
+  constructor(private _nws: NetworthService, private transferService: TransferService) { 
+    this.transferService.totalAccountValue.subscribe( data => {
+      this.accountTotalValue = data;
+      console.log("Recievd in dashboard &&&&&&& "+this.accountTotalValue);
+    });
+  }
 
   startAnimationForLineChart(chart) {
     let seq: any, delays: any, durations: any;
@@ -130,6 +140,8 @@ export class DashboardComponent implements OnInit {
       });
 
       this.getChartsForDays(sortedNetworth, 5);
+
+      
 
       // TESTING CODE STARTS //
 

@@ -25,6 +25,7 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { HttpClientModule } from '@angular/common/http';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { TransferService } from './service/transfer.service';
 
 @NgModule({
   imports: [
@@ -46,7 +47,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     AppComponent,
     AdminLayoutComponent,
   ],
-  providers: [],
+  providers: [ TransferService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
