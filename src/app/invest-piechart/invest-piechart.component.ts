@@ -52,25 +52,25 @@ export class InvestPiechartComponent implements OnInit {
       });
       this.totalNetworth = (this._401kNetWorth + this._529Worth + this.iraWorth);
       transferService.pushTotalValue(this.totalNetworth);
-      console.log('totalNetworth = ' + this.totalNetworth);
-      console.log('_401kNetWorth = ' + this._401kNetWorth);
-      console.log('_529Worth = ' + this._529Worth);
-      console.log('iraWorth = ' + this.iraWorth);
+      // console.log('totalNetworth = ' + this.totalNetworth);
+      // console.log('_401kNetWorth = ' + this._401kNetWorth);
+      // console.log('_529Worth = ' + this._529Worth);
+      // console.log('iraWorth = ' + this.iraWorth);
 
       // this._401kNetWorth = ((this._401kNetWorth / this.totalNetworth) * 100);
-      console.log('401K = ' + this._401kNetWorth);
+      // console.log('401K = ' + this._401kNetWorth);
       const pieChartItem401 = { 'name': '401 K', 'value': this._401kNetWorth }
       pieData.push(pieChartItem401);
       this.dataPie = pieData;
 
       // this.iraWorth = ((this.iraWorth / this.totalNetworth) * 100);
-      console.log('IRA = ' + this.iraWorth);
+      // console.log('IRA = ' + this.iraWorth);
       const pieChartItemIRA = { 'name': 'IRA', 'value': this.iraWorth }
       pieData.push(pieChartItemIRA);
       this.dataPie = pieData;
 
       // this._529Worth = ((this._529Worth / this.totalNetworth) * 100);
-      console.log('529 = ' + this._529Worth);
+      // console.log('529 = ' + this._529Worth);
       const pieChartItemMF = { 'name': '529', 'value': this._529Worth }
       pieData.push(pieChartItemMF);
       this.dataPie = pieData;
