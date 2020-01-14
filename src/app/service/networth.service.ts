@@ -8,9 +8,9 @@ import { NetWorth } from 'app/model/modelNetWorth';
 })
 export class NetworthService {
 
-  constructor(private _http:HttpClient) { }
+  constructor(private _http: HttpClient) { }
 
-  getNetworth():Observable<NetWorth[]>{
+  getNetworth(): Observable<NetWorth[]> {
     return this._http.get<NetWorth[]>('https://yq77zlm7sb.execute-api.us-east-2.amazonaws.com/prod/networth');
     //return this._http.get<NetWorth[]>('../../assets/data/networth.json');
   }

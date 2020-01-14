@@ -23,6 +23,7 @@ import {
   MatTooltipModule,
   MatSelectModule
 } from '@angular/material';
+import { InvLinechartComponent } from 'app/inv-linechart/inv-linechart.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -46,7 +47,8 @@ import {
     NotificationsComponent,
     UpgradeComponent,
     MutualfundsComponent,
-    InvestPiechartComponent
+    InvestPiechartComponent,
+    InvLinechartComponent
   ]
 })
 

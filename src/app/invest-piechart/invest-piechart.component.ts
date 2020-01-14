@@ -19,7 +19,7 @@ export class InvestPiechartComponent implements OnInit {
   // options
   showXAxis = true;
   showYAxis = true;
-  gradient = false;
+  gradient = true;
   showLegend = true;
   showXAxisLabel = true;
   xAxisLabel = 'Number';
@@ -28,7 +28,9 @@ export class InvestPiechartComponent implements OnInit {
   explodeSlices = false;
   yAxisLabel = 'Color Value';
   timeline = true;
-  colorScheme = 'cool';
+  colorScheme = {
+    domain: ['green', 'grey','red']
+  };
   showLabels = false;
   legendPosition = 'right';
 

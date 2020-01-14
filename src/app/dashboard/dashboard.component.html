@@ -3,30 +3,12 @@
         <div class="row">
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="card card-stats">
-                    <div class="card-header card-header-warning card-header-icon">
-                        <div class="card-icon">
-                            <i class="fas fa-piggy-bank"></i>
-                        </div>
-                        <p class="card-category">Accounts</p>
-                        <h3 class="card-title">4
-                        </h3>
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons text-gray">info</i>
-                            <a href="javascript:void(0)">Wells Fargo, ML, Vanguard, Etrade</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="card card-stats">
                     <div class="card-header card-header-success card-header-icon">
                         <div class="card-icon">
                             <i class="fas fa-hand-holding-usd"></i>
                         </div>
                         <p class="card-category">All Accounts Total</p>
-                        <h3 class="card-title"> {{accountTotalValue | currency:"$" }} </h3>
+                        <h3 class="card-title">$34,245</h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -35,7 +17,23 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-warning card-header-icon">
+                        <div class="card-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <p class="card-category">All Accounts Total</p>
+                        <h3 class="card-title"> {{accountTotalValue | currency:"$" }} </h3>
 
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">update</i> Just Updated
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="card card-stats">
                     <div class="card-header card-header-info card-header-icon">
@@ -55,6 +53,15 @@
         </div>
 
         <div class="row">
+            <div class="col-lg-5 col-md-12 col-sm-12">    
+                <app-invest-piechart></app-invest-piechart>
+            </div>
+            <div class="col-lg-7 col-md-12 col-sm-12">
+                <app-inv-linechart></app-inv-linechart>
+            </div>
+        </div>
+        
+        <div class="row">
             <!-- <div class="col-lg-5 col-md-12 col-sm-12">
                 <app-invest-piechart></app-invest-piechart>
                 <app-invest-piechart></app-invest-piechart>
@@ -64,54 +71,6 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg-4 col-md-12 col-sm-12">
-                <div class="card card-chart">
-                    <div class="card-header card-header-danger">
-                        <div class="ct-chart" id="testChart_401k"></div>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">401k Weekly Trend</h4>
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">access_time</i> $XXX Change in Value
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-12 col-sm-12">
-                <div class="card card-chart">
-                    <div class="card-header card-header-info">
-                        <div class="ct-chart" id="testChart_ira"></div>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">IRA Weekly Trend</h4>
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">access_time</i> $XXX Change in Value
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-12 col-sm-12">
-                <div class="card card-chart">
-                    <div class="card-header card-header-primary">
-                        <div class="ct-chart" id="testChart_529"></div>
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-title">529 Weekly Trend</h4>
-                    </div>
-                    <div class="card-footer">
-                        <div class="stats">
-                            <i class="material-icons">access_time</i> $XXX Change in Value
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
     </div>
 </div>

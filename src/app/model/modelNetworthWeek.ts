@@ -1,4 +1,4 @@
-export class ConsolidatedNetworth{
-    xAxisValues:String[];
-    yAxisValues:number[];
+export class ConsolidatedNetworth {
+    xAxisValues: String[];
+    yAxisValues: number[];
 }
