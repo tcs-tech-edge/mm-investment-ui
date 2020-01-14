@@ -1,58 +1,37 @@
-<div class="row">
- 
-
-  <div class="col-lg-5 col-md-12 col-sm-12">
-    <app-invest-piechart></app-invest-piechart>
-    <div class="card">
-      <div class="card-header">
-        <h4 class="card-title"><b>Investment Distribution</b></h4>
-      </div>
-      <div class="card-body">
-        <ngx-charts-pie-chart [legendPosition]="'right'" [view]="view" [scheme]="colorScheme" [results]="data401k"
-          [legend]="showLegend" animations="false" [labels]="showLabels" [doughnut]="doughnut" [gradient]="gradient">
-        </ngx-charts-pie-chart>
-      </div>
-    </div>
-   
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title"><b>Investment Details</b></h4>
   </div>
-  <div class="col-lg-7 col-md-12 col-sm-12">
-    <div class="card">
-      <div class="card-header">
-        <h4 class="card-title"><b>Investment Details</b></h4>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table">
-            <thead class=" text-primary">
-              <th *ngFor="let header of tabledata401kHeader; let i=index">
-                {{header}}
-              </th>
-            </thead>
-            <tbody>
-              <tr *ngFor="let rowData of tabledata401kData; let i=index">
-                <td>
-                  {{rowData['Fund_Name']}}
-                </td>
-                <td>
-                  {{rowData['Shares']}}
-                </td>
-                <td>
-                  {{rowData['AvgPrice'] |currency }}
-                </td>
-                <td>
-                  {{rowData['StockPrice'] |currency }}
-                </td>
-                <td>
-                  {{rowData['CurVal'] |currency }}
-                </td>
-                <td>
-                  {{rowData['Margin'] + "%"}}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table">
+        <thead class=" text-primary">
+          <th *ngFor="let header of tabledata401kHeader; let i=index">
+            {{header}}
+          </th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let rowData of tabledata401kData; let i=index">
+            <td>
+              {{rowData['Fund_Name']}}
+            </td>
+            <td>
+              {{rowData['Shares']}}
+            </td>
+            <td>
+              {{rowData['AvgPrice'] |currency }}
+            </td>
+            <td>
+              {{rowData['StockPrice'] |currency }}
+            </td>
+            <td>
+              {{rowData['CurVal'] |currency }}
+            </td>
+            <td>
+              {{rowData['Margin'] + "%"}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
-</div>
