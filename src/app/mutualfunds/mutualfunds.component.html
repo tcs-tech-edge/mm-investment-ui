@@ -1,37 +1,126 @@
-<div class="card">
-  <div class="card-header">
-    <h4 class="card-title"><b>Investment Details</b></h4>
+<div class="row">
+
+
+  <div class="col-lg-5 col-md-12 col-sm-12">
+    <app-invest-piechart></app-invest-piechart>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title"><b>Investment Distribution</b></h4>
+      </div>
+      <div class="card-body">
+        <ngx-charts-pie-chart [legendPosition]="'right'" [view]="view" [scheme]="colorScheme" [results]="data401k"
+          [legend]="showLegend" animations="false" [labels]="showLabels" [doughnut]="doughnut" [gradient]="gradient">
+        </ngx-charts-pie-chart>
+      </div>
+    </div>
+
   </div>
-  <div class="card-body">
-    <div class="table-responsive">
-      <table class="table">
-        <thead class=" text-primary">
-          <th *ngFor="let header of tabledata401kHeader; let i=index">
-            {{header}}
-          </th>
-        </thead>
-        <tbody>
-          <tr *ngFor="let rowData of tabledata401kData; let i=index">
-            <td>
-              {{rowData['Fund_Name']}}
-            </td>
-            <td>
-              {{rowData['Shares']}}
-            </td>
-            <td>
-              {{rowData['AvgPrice'] |currency }}
-            </td>
-            <td>
-              {{rowData['StockPrice'] |currency }}
-            </td>
-            <td>
-              {{rowData['CurVal'] |currency }}
-            </td>
-            <td>
-              {{rowData['Margin'] + "%"}}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  <div class="col-lg-7 col-md-12 col-sm-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title"><b>Investment Details</b></h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class="text-primary text-center" >
+              <th style="width: 12.5%;">
+                Fund Name
+              </th>
+              <th style="width: 12.5%;">
+                Shares
+              </th>
+              <th style="width: 20%;">
+                Avg Purchase Price
+              </th>
+              <th style="width: 20%;">
+                Current Unit Price
+              </th>
+              <th style="width: 20%;">
+                Current Value
+              </th>
+              <th style="width: 15%;">
+                Margin
+              </th>
+            </thead>
+          </table>
+          <div><span class="text-success" style="font-size: 1.0rem; font-weight: bolder;">401k</span></div>
+          <table class="table" style="margin-bottom: 0.2rem; margin-top: 0.1rem;">
+            <tbody>
+              <tr class="table-primary text-center" *ngFor="let rowData of tabledata_401k; let i=index" [@enterAnimation]>
+                <td style="width: 12.5%; font-size: 12px;">
+                  {{rowData['Fund_Name']}}
+                </td>
+                <td style="width: 12.5%; font-size: 12px;">
+                  {{rowData['Shares']}}
+                </td>
+                <td style="width: 20%; font-size: 12px;">
+                  {{rowData['AvgPrice'] |currency }}
+                </td>
+                <td style="width: 20%; font-size: 12px;">
+                  {{rowData['StockPrice'] |currency }}
+                </td>
+                <td style="width: 20%; font-size: 12px;">
+                  {{rowData['CurVal'] |currency }}
+                </td>
+                <td style="width: 15%; font-size: 12px;">
+                  {{rowData['Margin'] + "%"}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div><span class="text-success" style="font-size: 1.0rem; font-weight: bolder;">529</span></div>
+          <table class="table" style="margin-bottom: 0.2rem; margin-top: 0.1rem;">
+            <tbody>
+              <tr class="table-success text-center" *ngFor="let rowData of tabledata_529; let i=index" [@enterAnimation]>
+                <td style="width: 12.5%; font-size: 12px;">
+                  {{rowData['Fund_Name']}}
+                </td>
+                <td style="width: 12.5%; font-size: 12px;">
+                  {{rowData['Shares']}}
+                </td>
+                <td style="width: 20%; font-size: 12px;">
+                  {{rowData['AvgPrice'] |currency }}
+                </td>
+                <td style="width: 20%; font-size: 12px;">
+                  {{rowData['StockPrice'] |currency }}
+                </td>
+                <td style="width: 20%; font-size: 12px;">
+                  {{rowData['CurVal'] |currency }}
+                </td>
+                <td style="width: 15%; font-size: 12px;">
+                  {{rowData['Margin'] + "%"}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div><span class="text-success" style="font-size: 1.0rem; font-weight: bolder;">IRA</span></div>
+          <table class="table" style="margin-bottom: 0.1rem; margin-top: 0.1rem;">
+            <tbody>
+              <tr class="table-secondary text-center" *ngFor="let rowData of tabledata_ira; let i=index" [@enterAnimation]>
+                <td style="width: 12.5%; font-size: 12px;">
+                  {{rowData['Fund_Name']}}
+                </td>
+                <td style="width: 12.5%; font-size: 12px;">
+                  {{rowData['Shares']}}
+                </td>
+                <td style="width: 20%; font-size: 12px;">
+                  {{rowData['AvgPrice'] |currency }}
+                </td>
+                <td style="width: 20%; font-size: 12px;">
+                  {{rowData['StockPrice'] |currency }}
+                </td>
+                <td style="width: 20%; font-size: 12px;">
+                  {{rowData['CurVal'] |currency }}
+                </td>
+                <td style="width: 15%; font-size: 12px;">
+                  {{rowData['Margin'] + "%"}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
+</div>

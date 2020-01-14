@@ -75,31 +75,6 @@ export class DashboardComponent implements OnInit {
     seq = 0;
   }
 
-  startAnimationForBarChart(chart) {
-    let seq2: any, delays2: any, durations2: any;
-
-    seq2 = 0;
-    delays2 = 80;
-    durations2 = 500;
-    chart.on('draw', function (data) {
-      if (data.type === 'bar') {
-        seq2++;
-        data.element.animate({
-          opacity: {
-            begin: seq2 * delays2,
-            dur: durations2,
-            from: 0,
-            to: 1,
-            easing: 'ease'
-          }
-        });
-      }
-    });
-
-    seq2 = 0;
-  }
-
-
   getWeek(d: Date): Number {
 
     // Create a copy of this date object
@@ -140,8 +115,6 @@ export class DashboardComponent implements OnInit {
       });
 
       this.getChartsForDays(sortedNetworth, 5);
-
-      
 
       // TESTING CODE STARTS //
 
@@ -229,17 +202,17 @@ export class DashboardComponent implements OnInit {
     this.max_529_total = Math.max.apply(Math, this.consolidated_529.yAxisValues.map(function (o) { return o; }))
     this.max_ira_total = Math.max.apply(Math, this.consolidated_ira.yAxisValues.map(function (o) { return o; }))
 
-    console.log('max 401k: ' + this.max_401k_total);
-    console.log('max 529: ' + this.max_529_total);
-    console.log('max ira: ' + this.max_ira_total);
+    // console.log('max 401k: ' + this.max_401k_total);
+    // console.log('max 529: ' + this.max_529_total);
+    // console.log('max ira: ' + this.max_ira_total);
 
     this.min_401k_total = Math.min.apply(Math, this.consolidated_401k.yAxisValues.map(function (o) { return o; }))
     this.min_529_total = Math.min.apply(Math, this.consolidated_529.yAxisValues.map(function (o) { return o; }))
     this.min_ira_total = Math.min.apply(Math, this.consolidated_ira.yAxisValues.map(function (o) { return o; }))
 
-    console.log('min 401k: ' + this.min_401k_total);
-    console.log('min 529: ' + this.min_529_total);
-    console.log('min ira: ' + this.min_ira_total);
+    // console.log('min 401k: ' + this.min_401k_total);
+    // console.log('min 529: ' + this.min_529_total);
+    // console.log('min ira: ' + this.min_ira_total);
 
     this.retrieveTestChart(this.consolidated_401k.xAxisValues, this.consolidated_401k.yAxisValues,
       10, 10, this.min_401k_total, this.max_401k_total, '#testChart_401k');

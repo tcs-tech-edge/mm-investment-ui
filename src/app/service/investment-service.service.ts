@@ -10,7 +10,6 @@ export class InvestmentServiceService {
   constructor(private http: HttpClient) { }
 
   public get401kData(): Observable<any> {
-
     return this.http.get('https://yq77zlm7sb.execute-api.us-east-2.amazonaws.com/prod/portfolio');
   }
 
