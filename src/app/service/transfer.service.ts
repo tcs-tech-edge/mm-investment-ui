@@ -7,9 +7,13 @@ import { Subject } from 'rxjs/Subject';
 export class TransferService {
 
   private totalAccountValueSource = new Subject<number>();
+
   private total401KValueSource = new Subject<number>();
   private total529ValueSource = new Subject<number>();
   private totalIRAValueSource = new Subject<number>();
+
+  
+
 
   totalAccountValue = this.totalAccountValueSource.asObservable();
   total401KValue = this.total401KValueSource.asObservable();

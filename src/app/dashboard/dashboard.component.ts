@@ -36,13 +36,15 @@ export class DashboardComponent implements OnInit {
   currentTotal529 = 0;
   currentTotalIRA = 0;
 
-  accountTotalValue: number;
+  accountTotalValue = 0;
+  investedTotalValue = 0;
+  profitValue: string;
 
   constructor(private _nws: NetworthService, private transferService: TransferService) { 
-    // this.transferService.totalAccountValue.subscribe( data => {
-    //   this.accountTotalValue = data;
-    //   console.log("Recievd in dashboard &&&&&&& "+this.accountTotalValue);
-    // });
+    this.transferService.totalAccountValue.subscribe( data => {
+       this.investedTotalValue = data;
+       console.log("Recievd in dashboard &&&&&&& "+this.accountTotalValue);
+    });
 
     this.transferService.total401KValue.subscribe( _401kdata => {
       this.currentTotal401k = _401kdata;
@@ -52,6 +54,7 @@ export class DashboardComponent implements OnInit {
           this.currentTotalIRA = IRAdata;
           console.log(this.currentTotal401k + ' - ' + this.currentTotal529 + ' - '+ this.currentTotalIRA)
           this.accountTotalValue = this.currentTotal401k + this.currentTotal529 + this.currentTotalIRA;
+          this.profitValue = (this.accountTotalValue - this.investedTotalValue).toFixed(2);
         });
       });
     });
@@ -132,7 +135,7 @@ export class DashboardComponent implements OnInit {
     this._nws.getNetworth().subscribe(allNetworth => {
       this.networth = allNetworth;
 
-      document.getElementById('dropdownMenu2').innerHTML = '5 DAYS';
+      //document.getElementById('dropdownMenu2').innerHTML = '5 DAYS';
 
       this.sortedNetworth = this.networth.sort(function (a, b) {
         return a.insertDate < b.insertDate ? 1 : a.insertDate > b.insertDate ? -1 : 0
