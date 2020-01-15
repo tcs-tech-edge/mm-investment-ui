@@ -4,8 +4,8 @@
     <h4><b>Investment Performance</b></h4>
     <div class="ct-chart">
 
-      <ngx-charts-line-chart style="height: 200px !important;" [view]="view" [scheme]="colorScheme" [legend]="legend" [showXAxisLabel]="showXAxisLabel"
-        [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis"
+      <ngx-charts-line-chart style="height: 200px !important;"  [view]="view" [scheme]="colorScheme" [legend]="legend" [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis" [legendPosition] = "'below'"
         [timeline]="timeline" [results]="multi"  (select)="onSelect($event)"
         (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
       </ngx-charts-line-chart>

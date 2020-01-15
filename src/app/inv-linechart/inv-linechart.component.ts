@@ -11,7 +11,7 @@ import { data } from 'jquery';
 export class InvLinechartComponent implements OnInit {
 
   multi: any[] = [];
-  view: any[] = [700, 300];
+  view: any[] = [600, 300];
 
   // options
   legend = true;
@@ -26,7 +26,7 @@ export class InvLinechartComponent implements OnInit {
   timeline = true;
 
   colorScheme = {
-    domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
+    domain: ['black', 'red', 'blue']
   };
 
   networth: NetWorth[];
