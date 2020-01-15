@@ -49,43 +49,22 @@ export class InvLinechartComponent implements OnInit {
 
       const filterNetworth = this.networth.slice(Math.max(this.networth.length - 15, 0))
 
-      const yAxis_401k = new Array<any>();
-      const yAxis_529 = new Array<any>();
-      const yAxis_ira = new Array<any>();
+      const netWorth = new Array<any>();
 
       for (let i = 0; i < filterNetworth.length; i++) {
         const _401K = {
           'name': this.getFormattedDate(filterNetworth[i].insertDate),
-          'value': Number(filterNetworth[i].totalAmount._401K)
+          'value': Number(parseFloat(filterNetworth[i].totalAmount._401K) +
+            parseFloat(filterNetworth[i].totalAmount.Roth_IRA) + parseFloat(filterNetworth[i].totalAmount._529))
         }
-        yAxis_401k.push(_401K);
-
-        const Roth_IRA = {
-          'name': this.getFormattedDate(filterNetworth[i].insertDate),
-          'value': Number(filterNetworth[i].totalAmount.Roth_IRA)
-        }
-        yAxis_ira.push(Roth_IRA);
-
-        const _529 = {
-          'name': this.getFormattedDate(filterNetworth[i].insertDate),
-          'value': Number(filterNetworth[i].totalAmount._529)
-        }
-        yAxis_529.push(_529);
+        netWorth.push(_401K);
 
       }
 
       const multi = [
         {
-          'name': '401K',
-          'series': yAxis_401k
-        },
-        {
-          'name': '529',
-          'series': yAxis_529
-        },
-        {
-          'name': 'IRA',
-          'series': yAxis_ira
+          'name': 'Net Worth',
+          'series': netWorth
         }
       ]
       Object.assign(this, { multi });
@@ -100,16 +79,6 @@ export class InvLinechartComponent implements OnInit {
     return dateString.substring(0, dateString.lastIndexOf('/'));
   }
 
-  onSelect(data): void {
-    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
-  }
 
-  onActivate(data): void {
-    console.log('Activate', JSON.parse(JSON.stringify(data)));
-  }
-
-  onDeactivate(data): void {
-    console.log('Deactivate', JSON.parse(JSON.stringify(data)));
-  }
 
 }

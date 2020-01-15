@@ -1,5 +1,5 @@
-export class totalAmount{
-    _529:String;
-    Roth_IRA:String;
-    _401K:String;
+export class totalAmount {
+    _529: string;
+    Roth_IRA: string;
+    _401K: string;
 }
