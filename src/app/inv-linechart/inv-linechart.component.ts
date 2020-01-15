@@ -11,7 +11,7 @@ import { data } from 'jquery';
 export class InvLinechartComponent implements OnInit {
 
   multi: any[] = [];
-  view: any[] = [600, 300];
+  view: any[] = [400, 300];
 
   // options
   legend = true;
@@ -47,7 +47,7 @@ export class InvLinechartComponent implements OnInit {
       currDate.setMonth(currDate.getMonth() - 1);
 
 
-      const filterNetworth = this.networth.slice(Math.max(this.networth.length - 30, 0))
+      const filterNetworth = this.networth.slice(Math.max(this.networth.length - 15, 0))
 
       const yAxis_401k = new Array<any>();
       const yAxis_529 = new Array<any>();
