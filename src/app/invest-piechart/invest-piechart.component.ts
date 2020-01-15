@@ -26,7 +26,7 @@ export class InvestPiechartComponent implements OnInit {
   yAxisLabel = 'Color Value';
   timeline = true;
   colorScheme = {
-    domain: ['green', 'grey','red']
+    domain: ['black', 'blue','red']
   };
   showLabels = false;
   legendPosition = 'right';

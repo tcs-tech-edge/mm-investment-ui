@@ -31,7 +31,7 @@ import {
           ":enter",
           [
             style({ opacity: 0 }),
-            stagger(100, [animate("1s", style({ opacity: 1 }))])
+            stagger(100, [animate("0.5s", style({ opacity: 1 }))])
           ],
           { optional: true }
         )
@@ -41,11 +41,11 @@ import {
       'enterAnimation', [
         transition(':enter', [
           style({transform: 'translateX(100%)', opacity: 0}),
-          animate('500ms', style({transform: 'translateX(0)', opacity: 1, 'overflow-x': 'hidden'}))
+          animate('750ms', style({transform: 'translateX(0)', opacity: 1, 'overflow-x': 'hidden'}))
         ]),
         transition(':leave', [
           style({transform: 'translateX(0)', opacity: 1}),
-          animate('500ms', style({transform: 'translateX(100%)', opacity: 0}))
+          animate('750ms', style({transform: 'translateX(100%)', opacity: 0}))
         ])
       ]
     ),

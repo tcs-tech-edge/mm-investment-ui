@@ -135,13 +135,13 @@ export class DashboardComponent implements OnInit {
     this._nws.getNetworth().subscribe(allNetworth => {
       this.networth = allNetworth;
 
-      //document.getElementById('dropdownMenu2').innerHTML = '5 DAYS';
+      document.getElementById('dropdownMenu2').innerHTML = '3 MONTHS';
 
       this.sortedNetworth = this.networth.sort(function (a, b) {
         return a.insertDate < b.insertDate ? 1 : a.insertDate > b.insertDate ? -1 : 0
       });
 
-      this.getChartsForDays(this.sortedNetworth, 5);
+      this.threeMonthSelected();
 
       // TESTING CODE STARTS //
 
@@ -190,32 +190,91 @@ export class DashboardComponent implements OnInit {
     console.log('FIVE days selected');
     document.getElementById('dropdownMenu2').innerHTML = '5 DAYS';
 
-    this.getChartsForDays(this.sortedNetworth, 5);
+    this.getChartsForDays(this.sortedNetworth, 5, 'd');
+
+    this.diff_401k = '$' + Number((this.currentDayValue_401k - this.intervalDaysValue_401k).toFixed(2)).toLocaleString() + ' change in the past 1 week';
+    this.diff_529 = '$' + Number((this.currentDayValue_529 - this.intervalDaysValue_529).toFixed(2)).toLocaleString() + ' change in the past 1 week';
+    this.diff_ira = '$' + Number((this.currentDayValue_ira - this.intervalDaysValue_ira).toFixed(2)).toLocaleString() + ' change in the past 1 week';
   }
 
   twoWeeksSelected() {
     console.log('TWO weeks selected');
     document.getElementById('dropdownMenu2').innerHTML = '2 WEEKS';
 
-    this.getChartsForDays(this.sortedNetworth, 10);
+    this.getChartsForDays(this.sortedNetworth, 10, 'd');
+
+    this.diff_401k = '$' + Number((this.currentDayValue_401k - this.intervalDaysValue_401k).toFixed(2)).toLocaleString() + ' change in the past 2 weeks';
+    this.diff_529 = '$' + Number((this.currentDayValue_529 - this.intervalDaysValue_529).toFixed(2)).toLocaleString() + ' change in the past 2 weeks';
+    this.diff_ira = '$' + Number((this.currentDayValue_ira - this.intervalDaysValue_ira).toFixed(2)).toLocaleString() + ' change in the past 2 weeks';
   }
 
   oneMonthSelected() {
     console.log('ONE month selected');
     document.getElementById('dropdownMenu2').innerHTML = '1 MONTH';
+
+    this.getChartsForDays(this.sortedNetworth, 30, 'm');
+
+    this.diff_401k = '$' + Number((this.currentDayValue_401k - this.intervalDaysValue_401k).toFixed(2)).toLocaleString() + ' change in the past 1 month';
+    this.diff_529 = '$' + Number((this.currentDayValue_529 - this.intervalDaysValue_529).toFixed(2)).toLocaleString() + ' change in the past 1 month';
+    this.diff_ira = '$' + Number((this.currentDayValue_ira - this.intervalDaysValue_ira).toFixed(2)).toLocaleString() + ' change in the past 1 month';
   }
 
-  getChartsForDays(sortedNetworth: NetWorth[], days: number) {
-    const firstFive = sortedNetworth.slice(0, days);
+  threeMonthSelected(){
+    console.log('THREE months selected');
+    document.getElementById('dropdownMenu2').innerHTML = '3 MONTHS';
 
-    console.log(firstFive);
-    // this.convertToPlottingValues(firstFive, 5, "day");
+    this.getChartsForDays(this.sortedNetworth, 90, '3m');
+
+    this.diff_401k = '$' + Number((this.currentDayValue_401k - this.intervalDaysValue_401k).toFixed(2)).toLocaleString() + ' change in the past 3 months';
+    this.diff_529 = '$' + Number((this.currentDayValue_529 - this.intervalDaysValue_529).toFixed(2)).toLocaleString() + ' change in the past 3 months';
+    this.diff_ira = '$' + Number((this.currentDayValue_ira - this.intervalDaysValue_ira).toFixed(2)).toLocaleString() + ' change in the past 3 months';
+  }
+
+  currentDayValue_401k:number;
+  intervalDaysValue_401k:number;
+  diff_401k:String = '';
+
+  currentDayValue_529:number;
+  intervalDaysValue_529:number;
+  diff_529:String = '';
+
+  currentDayValue_ira:number;
+  intervalDaysValue_ira:number;
+  diff_ira:String = '';
+
+  getChartsForDays(sortedNetworth: NetWorth[], days: number, chartType:String) {
+    const requiredDays = sortedNetworth.slice(0, days);
+
+    // console.log("Required Days: "+JSON.stringify(requiredDays));
+    // console.log("Days: "+days);
+    // console.log("Required Days[0]: "+JSON.stringify(requiredDays[0]));
+    // console.log("Required Days[days-1]: "+JSON.stringify(requiredDays[days-1]));
+
+    let lastObjectInArray:NetWorth;
+
+    if(requiredDays[days-1] == undefined || requiredDays[days-1] == null){
+      lastObjectInArray = requiredDays[sortedNetworth.length - 1];
+    }else{
+      lastObjectInArray = sortedNetworth[days - 1];
+    }
+
+    this.currentDayValue_401k = Number(requiredDays[0].totalAmount._401K);
+    this.intervalDaysValue_401k = Number(lastObjectInArray.totalAmount._401K);
+
+    this.currentDayValue_529 = Number(requiredDays[0].totalAmount._529);
+    this.intervalDaysValue_529 = Number(lastObjectInArray.totalAmount._529);
+
+    this.currentDayValue_ira = Number(requiredDays[0].totalAmount.Roth_IRA);
+    this.intervalDaysValue_ira = Number(lastObjectInArray.totalAmount.Roth_IRA);
+
+    //console.log(requiredDays);
+    // this.convertToPlottingValues(requiredDays, 5, "day");
 
     this.consolidated_401k = new ConsolidatedNetworth();
     this.consolidated_529 = new ConsolidatedNetworth();
     this.consolidated_ira = new ConsolidatedNetworth();
 
-    this.getPlottingForDays(firstFive, this.consolidated_401k, this.consolidated_529, this.consolidated_ira);
+    this.getPlottingForDays(requiredDays, this.consolidated_401k, this.consolidated_529, this.consolidated_ira, chartType);
 
     this.max_401k_total = Math.max.apply(Math, this.consolidated_401k.yAxisValues.map(function (o) { return o; }))
     this.max_529_total = Math.max.apply(Math, this.consolidated_529.yAxisValues.map(function (o) { return o; }))
@@ -233,23 +292,37 @@ export class DashboardComponent implements OnInit {
     // console.log('min 529: ' + this.min_529_total);
     // console.log('min ira: ' + this.min_ira_total);
 
+    console.log("401k x-axis: "+JSON.stringify(this.consolidated_401k.xAxisValues));
+    console.log("529 x-axis: "+JSON.stringify(this.consolidated_529.xAxisValues));
+    console.log("IRA x-axis: "+JSON.stringify(this.consolidated_ira.xAxisValues));
+
     this.retrieveTestChart(this.consolidated_401k.xAxisValues, this.consolidated_401k.yAxisValues,
-      10, 10, this.min_401k_total, this.max_401k_total, '#testChart_401k');
+      250, 250, this.min_401k_total, this.max_401k_total, '#testChart_401k');
     this.retrieveTestChart(this.consolidated_529.xAxisValues, this.consolidated_529.yAxisValues,
-      10, 10, this.min_529_total, this.max_529_total, '#testChart_529');
+      250, 250, this.min_529_total, this.max_529_total, '#testChart_529');
     this.retrieveTestChart(this.consolidated_ira.xAxisValues, this.consolidated_ira.yAxisValues,
-      10, 10, this.min_ira_total, this.max_ira_total, '#testChart_ira');
+      250, 250, this.min_ira_total, this.max_ira_total, '#testChart_ira');
   }
 
   getPlottingForDays(givenNetworthValues: NetWorth[], result1: ConsolidatedNetworth,
-    result2: ConsolidatedNetworth, result3: ConsolidatedNetworth) {
+    result2: ConsolidatedNetworth, result3: ConsolidatedNetworth, chartType:String) {
     const xAxis = new Array<String>();
 
     const yAxis_401k = new Array<number>();
     const yAxis_529 = new Array<number>();
     const yAxis_ira = new Array<number>();
 
-    for (let i = 0; i < givenNetworthValues.length; i++) {
+    let inc:number = 0;
+
+    if(chartType == 'd'){
+      inc = 1;
+    }else if(chartType == 'm'){
+      inc = 4
+    }else if(chartType == '3m'){
+      inc = 8
+    }
+
+    for (let i = 0; i < givenNetworthValues.length; i=i+inc) {
       xAxis.push(this.getFormattedDate(givenNetworthValues[i].insertDate));
       yAxis_401k.push(Number(givenNetworthValues[i].totalAmount._401K));
       yAxis_529.push(Number(givenNetworthValues[i].totalAmount._529));
@@ -301,7 +374,7 @@ export class DashboardComponent implements OnInit {
       }
     }
 
-    const dailySalesChart = new Chartist.Line(target, dataDailySalesChart, optionsDailySalesChart)
+    const dailySalesChart = new Chartist.Line(target, dataDailySalesChart, optionsDailySalesChart);
     // .on("draw", function (data) {
     //   if (data.type === "point") {
     //     data.element._node.setAttribute("title", "" + data.value.y);
