@@ -26,7 +26,7 @@ export class InvestPiechartComponent implements OnInit {
   yAxisLabel = 'Color Value';
   timeline = true;
   colorScheme = {
-    domain: ['black', 'blue','red']
+    domain: ['black', 'blue', 'red']
   };
   showLabels = false;
   legendPosition = 'right';
@@ -40,42 +40,59 @@ export class InvestPiechartComponent implements OnInit {
 
   tableData: Customer[];
   constructor(private investmentService: InvestmentServiceService, private transferService: TransferService) {
-    const pieData: any[] = new Array();
-    investmentService.getTotalInvestmentDetails().subscribe(data => {
-      console.log(data);
-      this.investedAmount = data;
-      this.tableData = data;
-      this.investedAmount.forEach(model => {
-        if (model.totalAmount._401K) { this._401kNetWorth = Math.floor(model.totalAmount._401K); }
-        if (model.totalAmount._529) { this._529Worth = Math.floor(model.totalAmount._529); }
-        if (model.totalAmount.Roth_IRA) { this.iraWorth = Math.floor(model.totalAmount.Roth_IRA); }
+    this.getCurrentDataSet();
+  }
+
+  getCurrentDataSet() {
+
+    let _401KTotal = 0;
+    let _529Total = 0;
+    let IRATotal = 0;
+    this.investmentService.get401kData().subscribe(data => {
+      const promises = [];
+      data.forEach((model, index) => {
+        promises.push(
+          this.investmentService.getCurrentPricePromise(model.ticker).then(priceData => {
+             const currentPrice: any = parseFloat((priceData['price'] * model.number_of_shares).toFixed(2));
+            switch (model.investment_type) {
+              case '_529': {
+                _529Total = _529Total + currentPrice;
+                break;
+              }
+              case '_401K': {
+                _401KTotal = _401KTotal + currentPrice;
+                break;
+              }
+              case 'Roth_IRA': {
+                IRATotal = IRATotal + currentPrice;
+                break;
+              }
+            }
+          })
+        );
       });
-      this.totalNetworth = (this._401kNetWorth + this._529Worth + this.iraWorth);
-      transferService.pushTotalValue(this.totalNetworth);
-      // console.log('totalNetworth = ' + this.totalNetworth);
-      // console.log('_401kNetWorth = ' + this._401kNetWorth);
-      // console.log('_529Worth = ' + this._529Worth);
-      // console.log('iraWorth = ' + this.iraWorth);
 
-      // this._401kNetWorth = ((this._401kNetWorth / this.totalNetworth) * 100);
-      // console.log('401K = ' + this._401kNetWorth);
-      const pieChartItem401 = { 'name': '401 K', 'value': this._401kNetWorth }
-      pieData.push(pieChartItem401);
-      this.dataPie = pieData;
+      Promise.all(promises).then(() => {
+        const pieData: any[] = new Array();
+        const pieChartItem401 = { 'name': '401 K', 'value': parseFloat((_401KTotal).toFixed(2))}
+        pieData.push(pieChartItem401);
+        this.dataPie = pieData;
 
-      // this.iraWorth = ((this.iraWorth / this.totalNetworth) * 100);
-      // console.log('IRA = ' + this.iraWorth);
-      const pieChartItemIRA = { 'name': 'IRA', 'value': this.iraWorth }
-      pieData.push(pieChartItemIRA);
-      this.dataPie = pieData;
+        // this.iraWorth = ((this.iraWorth / this.totalNetworth) * 100);
+        // console.log('IRA = ' + this.iraWorth);
+        const pieChartItemIRA = { 'name': 'IRA', 'value': parseFloat((IRATotal).toFixed(2)) }
+        pieData.push(pieChartItemIRA);
+        this.dataPie = pieData;
 
-      // this._529Worth = ((this._529Worth / this.totalNetworth) * 100);
-      // console.log('529 = ' + this._529Worth);
-      const pieChartItemMF = { 'name': '529', 'value': this._529Worth }
-      pieData.push(pieChartItemMF);
-      this.dataPie = pieData;
-
+        // this._529Worth = ((this._529Worth / this.totalNetworth) * 100);
+        // console.log('529 = ' + this._529Worth);
+        const pieChartItemMF = { 'name': '529', 'value': parseFloat((_529Total).toFixed(2)) }
+        pieData.push(pieChartItemMF);
+        this.dataPie = pieData;
+      });
     });
+
+
   }
 
   ngOnInit() {

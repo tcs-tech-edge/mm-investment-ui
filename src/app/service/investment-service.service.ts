@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import 'rxjs/add/operator/toPromise';
 
 @Injectable({
   providedIn: 'root'
@@ -20,4 +21,13 @@ export class InvestmentServiceService {
   public getCurrentPrice(symbol) {
     return this.http.get('https://financialmodelingprep.com/api/v3/stock/real-time-price/' + symbol);
   }
+
+  public getCurrentPricePromise(symbol) {
+    return this.http.get('https://financialmodelingprep.com/api/v3/stock/real-time-price/' + symbol).toPromise()
+    .then(res => res)
+    .catch(err => {
+      return Promise.reject(err.json().error || 'Server error');
+    });
+  }
+
 }

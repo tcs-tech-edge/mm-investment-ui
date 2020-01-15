@@ -11,7 +11,7 @@ import { data } from 'jquery';
 export class InvLinechartComponent implements OnInit {
 
   multi: any[] = [];
-  view: any[] = [400, 300];
+  view: any[] = [500, 300];
 
   // options
   legend = true;

@@ -6,6 +6,7 @@ import { TransferService } from '../service/transfer.service';
 
 import { NetWorth } from 'app/model/modelNetWorth';
 import { ConsolidatedNetworth } from 'app/model/modelNetworthWeek';
+import { log } from 'util';
 
 @Component({
   selector: 'app-dashboard',
@@ -40,29 +41,69 @@ export class DashboardComponent implements OnInit {
   investedTotalValue = 0;
   profitValue: string;
 
-  constructor(private _nws: NetworthService, private transferService: TransferService) { 
-    this.transferService.totalAccountValue.subscribe( data => {
-       this.investedTotalValue = data;
-       console.log("Recievd in dashboard &&&&&&& "+this.accountTotalValue);
-    });
+  sortedNetworth: NetWorth[];
 
-    this.transferService.total401KValue.subscribe( _401kdata => {
-      this.currentTotal401k = _401kdata;
-      this.transferService.total529Value.subscribe( _529data => {
-        this.currentTotal529 = _529data;
-        this.transferService.totalIRAValue.subscribe( IRAdata => {
-          this.currentTotalIRA = IRAdata;
-          console.log(this.currentTotal401k + ' - ' + this.currentTotal529 + ' - '+ this.currentTotalIRA)
-          this.accountTotalValue = this.currentTotal401k + this.currentTotal529 + this.currentTotalIRA;
-          this.profitValue = (this.accountTotalValue - this.investedTotalValue).toFixed(2);
-        });
+  currentDayValue_401k: number;
+  intervalDaysValue_401k: number;
+  diff_401k: String = '';
+
+  currentDayValue_529: number;
+  intervalDaysValue_529: number;
+  diff_529: String = '';
+
+  currentDayValue_ira: number;
+  intervalDaysValue_ira: number;
+  diff_ira: String = '';
+
+  constructor(private _nws: NetworthService, private transferService: TransferService,
+    private investmentService: InvestmentServiceService) {
+  }
+
+  getCurrentDataSet() {
+
+    let avgMargin = 0;
+    let _401KTotal = 0;
+    let _529Total = 0;
+    let IRATotal = 0;
+    this.investmentService.get401kData().subscribe(data => {
+      const promises = [];
+      data.forEach((model, index) => {
+        promises.push(
+          this.investmentService.getCurrentPricePromise(model.ticker).then(priceData => {
+            const purchasePrice: any = parseFloat((model.purchase_price * model.number_of_shares).toFixed(2));
+            const currentPrice: any = parseFloat((priceData['price'] * model.number_of_shares).toFixed(2));
+            avgMargin = avgMargin + (currentPrice - purchasePrice);
+
+            switch (model.investment_type) {
+              case '_529': {
+                _529Total = _529Total + currentPrice;
+                break;
+              }
+              case '_401K': {
+                _401KTotal = _401KTotal + currentPrice;
+                break;
+              }
+              case 'Roth_IRA': {
+                IRATotal = IRATotal + currentPrice;
+                break;
+              }
+            }
+          })
+        );
+      });
+
+      Promise.all(promises).then(() => {
+        this.profitValue = String(avgMargin);
+        this.accountTotalValue = _529Total + _401KTotal + IRATotal
+        console.log('this.profitValue', this.profitValue);
+        console.log('this.accountTotalValue', this.accountTotalValue);
       });
     });
 
-    
 
-    
   }
+
+
 
   startAnimationForLineChart(chart) {
     let seq: any, delays: any, durations: any;
@@ -126,10 +167,10 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  sortedNetworth:NetWorth[];
-
   ngOnInit() {
 
+    this.getCurrentDataSet();
+    
     /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
 
     this._nws.getNetworth().subscribe(allNetworth => {
@@ -219,7 +260,7 @@ export class DashboardComponent implements OnInit {
     this.diff_ira = '$' + Number((this.currentDayValue_ira - this.intervalDaysValue_ira).toFixed(2)).toLocaleString() + ' change in the past 1 month';
   }
 
-  threeMonthSelected(){
+  threeMonthSelected() {
     console.log('THREE months selected');
     document.getElementById('dropdownMenu2').innerHTML = '3 MONTHS';
 
@@ -230,19 +271,7 @@ export class DashboardComponent implements OnInit {
     this.diff_ira = '$' + Number((this.currentDayValue_ira - this.intervalDaysValue_ira).toFixed(2)).toLocaleString() + ' change in the past 3 months';
   }
 
-  currentDayValue_401k:number;
-  intervalDaysValue_401k:number;
-  diff_401k:String = '';
-
-  currentDayValue_529:number;
-  intervalDaysValue_529:number;
-  diff_529:String = '';
-
-  currentDayValue_ira:number;
-  intervalDaysValue_ira:number;
-  diff_ira:String = '';
-
-  getChartsForDays(sortedNetworth: NetWorth[], days: number, chartType:String) {
+  getChartsForDays(sortedNetworth: NetWorth[], days: number, chartType: String) {
     const requiredDays = sortedNetworth.slice(0, days);
 
     // console.log("Required Days: "+JSON.stringify(requiredDays));
@@ -250,11 +279,11 @@ export class DashboardComponent implements OnInit {
     // console.log("Required Days[0]: "+JSON.stringify(requiredDays[0]));
     // console.log("Required Days[days-1]: "+JSON.stringify(requiredDays[days-1]));
 
-    let lastObjectInArray:NetWorth;
+    let lastObjectInArray: NetWorth;
 
-    if(requiredDays[days-1] == undefined || requiredDays[days-1] == null){
+    if (requiredDays[days - 1] === undefined || requiredDays[days - 1] == null) {
       lastObjectInArray = requiredDays[sortedNetworth.length - 1];
-    }else{
+    } else {
       lastObjectInArray = sortedNetworth[days - 1];
     }
 
@@ -267,7 +296,7 @@ export class DashboardComponent implements OnInit {
     this.currentDayValue_ira = Number(requiredDays[0].totalAmount.Roth_IRA);
     this.intervalDaysValue_ira = Number(lastObjectInArray.totalAmount.Roth_IRA);
 
-    //console.log(requiredDays);
+    // console.log(requiredDays);
     // this.convertToPlottingValues(requiredDays, 5, "day");
 
     this.consolidated_401k = new ConsolidatedNetworth();
@@ -292,9 +321,9 @@ export class DashboardComponent implements OnInit {
     // console.log('min 529: ' + this.min_529_total);
     // console.log('min ira: ' + this.min_ira_total);
 
-    console.log("401k x-axis: "+JSON.stringify(this.consolidated_401k.xAxisValues));
-    console.log("529 x-axis: "+JSON.stringify(this.consolidated_529.xAxisValues));
-    console.log("IRA x-axis: "+JSON.stringify(this.consolidated_ira.xAxisValues));
+    console.log('401k x-axis: ' + JSON.stringify(this.consolidated_401k.xAxisValues));
+    console.log('529 x-axis: ' + JSON.stringify(this.consolidated_529.xAxisValues));
+    console.log('IRA x-axis: ' + JSON.stringify(this.consolidated_ira.xAxisValues));
 
     this.retrieveTestChart(this.consolidated_401k.xAxisValues, this.consolidated_401k.yAxisValues,
       250, 250, this.min_401k_total, this.max_401k_total, '#testChart_401k');
@@ -305,24 +334,24 @@ export class DashboardComponent implements OnInit {
   }
 
   getPlottingForDays(givenNetworthValues: NetWorth[], result1: ConsolidatedNetworth,
-    result2: ConsolidatedNetworth, result3: ConsolidatedNetworth, chartType:String) {
+    result2: ConsolidatedNetworth, result3: ConsolidatedNetworth, chartType: String) {
     const xAxis = new Array<String>();
 
     const yAxis_401k = new Array<number>();
     const yAxis_529 = new Array<number>();
     const yAxis_ira = new Array<number>();
 
-    let inc:number = 0;
+    let inc = 0;
 
-    if(chartType == 'd'){
+    if (chartType === 'd') {
       inc = 1;
-    }else if(chartType == 'm'){
+    } else if (chartType === 'm') {
       inc = 4
-    }else if(chartType == '3m'){
+    } else if (chartType === '3m') {
       inc = 8
     }
 
-    for (let i = 0; i < givenNetworthValues.length; i=i+inc) {
+    for (let i = 0; i < givenNetworthValues.length; i = i + inc) {
       xAxis.push(this.getFormattedDate(givenNetworthValues[i].insertDate));
       yAxis_401k.push(Number(givenNetworthValues[i].totalAmount._401K));
       yAxis_529.push(Number(givenNetworthValues[i].totalAmount._529));
