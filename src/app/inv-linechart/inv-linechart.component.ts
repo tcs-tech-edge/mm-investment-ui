@@ -26,7 +26,7 @@ export class InvLinechartComponent implements OnInit {
   timeline = true;
 
   colorScheme = {
-    domain: ['black', 'red', 'blue']
+    domain: ['#CFC0BB']
   };
 
   networth: NetWorth[];
@@ -47,7 +47,7 @@ export class InvLinechartComponent implements OnInit {
       currDate.setMonth(currDate.getMonth() - 1);
 
 
-      const filterNetworth = this.networth.slice(Math.max(this.networth.length - 15, 0))
+      const filterNetworth = this.networth.slice(Math.max(this.networth.length - 30, 0))
 
       const netWorth = new Array<any>();
 
